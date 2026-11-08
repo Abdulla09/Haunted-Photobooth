@@ -50,3 +50,58 @@ body {
 #hint:empty {
   display: none;
 }
+
+/* Full-screen message screens (permission, WebGL2 missing) */
+.screen {
+  position: fixed;
+  inset: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  text-align: center;
+  background: #0a0a0a;
+  color: #f2ead3;
+  pointer-events: auto;
+}
+
+.screen[hidden] {
+  display: none;
+}
+
+.screen h1 {
+  margin: 0;
+  font-size: 28px;
+  color: #39ff14;
+}
+
+.screen p {
+  margin: 0;
+  max-width: 480px;
+  line-height: 1.4;
+}
+
+.screen .screen-note {
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+.screen button {
+  margin-top: 8px;
+  padding: 10px 24px;
+  font: inherit;
+  font-weight: 600;
+  color: #0a0a0a;
+  background: #ff6a00;
+  border: 2px solid #f2ead3;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.screen button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
