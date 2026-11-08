@@ -27,9 +27,6 @@ import { SteppedClock } from './SteppedClock'
 /** A hand sample older than this is treated as "no hand". */
 const HAND_STALE_MS = 500
 
-/** Per-step smoothing factor for Person_Center. */
-const CENTER_LERP = 0.25
-
 function byId(id: string): HTMLElement {
   const el = document.getElementById(id)
   if (!el) throw new Error(`Missing #${id} in index.html`)
@@ -70,7 +67,6 @@ export class App {
   private lastMaskVersion = 0
   private hasMask = false
   private center = { x: 0.5, y: 0.5 }
-  private readonly smoothCenter = { x: 0.5, y: 0.5 }
   private gestureClass: GestureClass = 'other'
 
   private readonly onResize = (): void => this.layoutCss()
@@ -224,12 +220,6 @@ export class App {
     }
 
     const tick = this.clock.update(nowMs)
-    if (tick.changed) {
-      // Per-step lerp so the light rays glide toward the person.
-      this.smoothCenter.x += (this.center.x - this.smoothCenter.x) * CENTER_LERP
-      this.smoothCenter.y += (this.center.y - this.smoothCenter.y) * CENTER_LERP
-      this.pipeline.setBackgroundCenter(this.smoothCenter.x, this.smoothCenter.y)
-    }
     uploadVideoFrame(gl, this.videoTex, video)
 
     // Advance the shatter on the stepped clock; may flip the mode to Monster.

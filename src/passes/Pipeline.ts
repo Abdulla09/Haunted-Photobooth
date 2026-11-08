@@ -20,18 +20,12 @@ export class Pipeline {
   readonly monster: RenderPass[];
   readonly transitioning: RenderPass[];
   private readonly all: RenderPass[];
-  private readonly background: BackgroundPass;
   private readonly particles: ParticlePass;
   private readonly shatter: ShatterPass;
 
   /** Generates a fresh wedge layout for a new transition. */
   beginShatter(seed: number): void {
     this.shatter.setWedges(generateWedges(seed));
-  }
-
-  /** Sets the smoothed Person_Center used by the background light rays. */
-  setBackgroundCenter(x: number, y: number): void {
-    this.background.setCenter(x, y);
   }
 
   constructor() {
@@ -46,7 +40,6 @@ export class Pipeline {
       (f) => f.targets.monster,
       () => maskBlur.outputTexture,
     );
-    this.background = background;
     const monsterPerson = new PersonPass((f) => f.targets.monster);
     const present = new PresentPass();
     // Particles render into their own Three target, so they run first; the

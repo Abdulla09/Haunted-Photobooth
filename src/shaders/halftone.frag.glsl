@@ -4,9 +4,8 @@ precision highp float;
 uniform sampler2D uVideo;
 uniform vec2 uResolution;
 uniform vec3 uPaper;
-uniform vec3 uPurple;
-uniform vec3 uOrange;
-uniform vec3 uBone;
+uniform vec3 uIndigo;
+uniform vec3 uViolet;
 in vec2 vUv;
 out vec4 outColor;
 
@@ -36,10 +35,12 @@ void main() {
                   + lumaAt(centerPx + vec2(0.0, o)) + lumaAt(centerPx + vec2(0.0, -o)));
   l = clamp(l, 0.0, 1.0);
 
-  float radius = 0.3 * CELL * l;
+  // Small, calm dots so the person stays the brightest element.
+  float radius = 0.28 * CELL * l;
   float d = length(q - cellCenterQ);
   float dotMask = 1.0 - smoothstep(radius - 0.5, radius + 0.5, d);
 
-  vec3 dotColor = l < 0.33 ? uPurple : (l < 0.66 ? uOrange : uBone);
-  outColor = vec4(mix(uPaper, dotColor * 0.6, dotMask), 1.0);
+  // Indigo in darker areas, violet in brighter areas.
+  vec3 dotColor = mix(uIndigo, uViolet, smoothstep(0.3, 0.7, l));
+  outColor = vec4(mix(uPaper, dotColor, dotMask), 1.0);
 }
