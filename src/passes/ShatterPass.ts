@@ -57,6 +57,7 @@ export class ShatterPass implements RenderPass {
 
     const o = clampOrigin(t.origin);
     p.setFloat('uOrigin', [o.x, o.y]);
+    p.setFloat('uResolution', [frame.size.w, frame.size.h]);
     p.setFloat('uAspect', frame.size.w / Math.max(1, frame.size.h));
     p.setFloat('uCrack', t.progress.crack);
     p.setFloat('uSeparate', t.progress.separate);

@@ -6,6 +6,7 @@ precision highp float;
 uniform sampler2D uNormal;
 uniform sampler2D uMonster;
 uniform vec2 uOrigin;          // [0,1]^2, uv space
+uniform vec2 uResolution;      // framebuffer size in pixels
 uniform float uAspect;         // width / height
 uniform float uBoundaries[WEDGES + 1];
 uniform float uDir[WEDGES];
@@ -57,6 +58,15 @@ vec2 crackAt(vec2 q, float ang, float lenMax, float seed) {
   return vec2(glow * tip, core * tip);
 }
 
+/* Thin, bright shard edge: ~2.5 px wide in screen pixels (q units are height-normalized). */
+float edgeAt(vec2 q, float ang) {
+  vec2 r = vec2(cos(ang), sin(ang));
+  float t = dot(q, r);
+  if (t < 0.0) return 0.0;
+  float d = abs(q.x * r.y - q.y * r.x) * uResolution.y; // pixels
+  return 1.0 - smoothstep(1.0, 2.5, d);
+}
+
 void main() {
   vec2 aspect = vec2(uAspect, 1.0);
   float diag = length(aspect);
@@ -89,8 +99,19 @@ void main() {
     vec2 c1 = crackAt(q, uBoundaries[i + 1], crackLen, float(i + 1));
     float glow = clamp(c0.x + c1.x, 0.0, 1.0) * fade;
     float core = clamp(c0.y + c1.y, 0.0, 1.0) * fade;
-    col = mix(col, TOXIC, glow * 0.85);
-    col = mix(col, BONE, core);
+    if (uSeparate > 0.0) {
+      // During separation swap the wide glow for a thin bright edge (blended in quickly).
+      float s = min(uSeparate * 20.0, 1.0);
+      float edge = clamp(edgeAt(q, uBoundaries[i]) + edgeAt(q, uBoundaries[i + 1]), 0.0, 1.0) * fade;
+      glow = mix(glow, 0.0, s);
+      core = mix(core, 0.0, s);
+      col = mix(col, TOXIC, glow * 0.85);
+      col = mix(col, BONE, core);
+      col = mix(col, mix(TOXIC, vec3(1.0), 0.5), edge * s);
+    } else {
+      col = mix(col, TOXIC, glow * 0.85);
+      col = mix(col, BONE, core);
+    }
     outColor = vec4(col, 1.0);
     return;
   }
