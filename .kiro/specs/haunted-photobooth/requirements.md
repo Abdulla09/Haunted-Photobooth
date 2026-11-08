@@ -39,6 +39,7 @@ Technical rules: MediaPipe Tasks Vision (HandLandmarker and ImageSegmenter selfi
 - **Return_Event**: An event, raised by a held Open_Palm or by the Spacebar, that requests the change from Monster_Mode to Normal_Mode.
 - **Cooldown**: A period during which the Mode_Controller ignores Triggers and Return_Events.
 - **Render_Pipeline**: The ordered sequence of named render passes, each implemented in its own file under src/passes/.
+- **Output_Canvas**: The single canvas element on which the Render_Pipeline draws the final composited image; the Recorder captures this canvas.
 - **Person_Pass**: The render pass that draws the stylized person using the Person_Mask.
 - **Kuwahara_Filter**: An edge-preserving painterly smoothing filter.
 - **Gradient_Map**: A color mapping from luminance to a vertical gradient running from toxic green at the top to deep purple at the bottom.
@@ -51,12 +52,13 @@ Technical rules: MediaPipe Tasks Vision (HandLandmarker and ImageSegmenter selfi
 - **Particle_Kind**: One of bat, skull, pumpkin, candy corn, coffin, eyeball, tombstone, or spider.
 - **Particle_Pass**: The Three.js render pass that draws Particles.
 - **Person_Center**: The normalized centroid of the Person_Mask.
-- **Title_Card**: The three-row tilted title text shown in Monster_Mode.
+- **Title_Card**: The three-row tilted title text shown in Monster_Mode, drawn into the Output_Canvas by a render pass, and therefore part of any recording.
 - **Shatter_Pass**: The render pass that draws the shatter transition.
 - **Wedge**: One irregular piece of the screen in the shatter transition.
 - **Crack_Effect**: Glowing toxic green cracks drawn along the Wedge boundaries.
+- **Burst_Start**: The moment the Wedges begin separating, or the moment the Mode_Controller enters Monster_Mode when no Shatter_Pass exists. The particle burst and title slam start here.
 - **Stepped_Rate**: An 18 fps update rate for stylized animation, independent of the render rate.
-- **Recorder**: The component that records the output canvas to WebM using MediaRecorder.
+- **Recorder**: The component that records the Output_Canvas to WebM using MediaRecorder.
 - **Record_Button**: The button labeled "Record 5s" that starts a recording.
 - **Debug_Overlay**: A toggleable overlay showing landmarks, the Person_Mask tint, and statistics.
 - **Permission_Screen**: The screen shown when camera access is denied or no camera is found.
@@ -217,14 +219,14 @@ Technical rules: MediaPipe Tasks Vision (HandLandmarker and ImageSegmenter selfi
 
 #### Acceptance Criteria
 
-1. WHEN the Mode_Controller enters Monster_Mode, THE Particle_Pass SHALL spawn 150 Particles at the Person_Center.
+1. WHEN Burst_Start occurs, THE Particle_Pass SHALL spawn 150 Particles at the Person_Center.
 2. THE Particle_Pass SHALL distribute the Particles across all eight Particle_Kinds with at least 10 Particles of each kind.
 3. THE Particle_Pass SHALL give each Particle an initial velocity directed away from the Person_Center.
 4. THE Particle_Pass SHALL render each Particle as a low-poly mesh with a cel-shaded material that uses at most four discrete shading bands.
 5. THE Particle_Pass SHALL color the Particles from the palette.
 6. THE Particle_Pass SHALL update Particle motion and rotation at the Stepped_Rate.
 7. WHEN a Particle leaves the viewport bounds, THE Particle_Pass SHALL respawn the Particle at the Person_Center with a new outward velocity.
-8. WHEN the Mode_Controller enters Normal_Mode, THE Particle_Pass SHALL hide all Particles and reset their state while retaining the allocated GPU resources.
+8. WHEN the Mode_Controller enters Normal_Mode, THE Particle_Pass SHALL hide all Particles shown since Burst_Start and reset their state while retaining the allocated GPU resources.
 9. WHEN the page unloads, THE Particle_Pass SHALL release its GPU resources.
 10. THE Particle_Pass SHALL render in front of the Person_Pass output.
 11. THE Particle_Pass SHALL be implemented in its own file under src/passes/ using Three.js.
@@ -235,11 +237,12 @@ Technical rules: MediaPipe Tasks Vision (HandLandmarker and ImageSegmenter selfi
 
 #### Acceptance Criteria
 
-1. WHEN the Mode_Controller enters Monster_Mode, THE App SHALL display the Title_Card as three text rows, each tilted at a different angle.
+1. WHEN Burst_Start occurs, THE App SHALL display the Title_Card as three text rows, each tilted at a different angle.
 2. WHEN the Title_Card appears, THE App SHALL play a slam-in animation lasting between 200 ms and 400 ms at the Stepped_Rate.
 3. THE Title_Card SHALL use original text that contains no copyrighted characters, logos, or show names.
 4. THE Title_Card SHALL use palette colors with a hard outline.
 5. WHEN the Mode_Controller enters Normal_Mode, THE App SHALL remove the Title_Card.
+6. THE App SHALL render the Title_Card as part of the Render_Pipeline and SHALL NOT render the Title_Card as an HTML element.
 
 ### Requirement 14: Shatter Transition (Phase 5)
 
@@ -277,7 +280,7 @@ Technical rules: MediaPipe Tasks Vision (HandLandmarker and ImageSegmenter selfi
 #### Acceptance Criteria
 
 1. THE App SHALL display the Record_Button.
-2. WHEN the user activates the Record_Button, THE Recorder SHALL capture the composited output canvas at 30 fps for 5000 ms using MediaRecorder.
+2. WHEN the user activates the Record_Button, THE Recorder SHALL capture the Output_Canvas at 30 fps for 5000 ms using MediaRecorder.
 3. WHEN the recording ends, THE Recorder SHALL produce a WebM file and start a browser download.
 4. WHILE a recording is in progress, THE App SHALL disable the Record_Button and show the remaining seconds.
 5. THE Recorder SHALL exclude the Debug_Overlay, the Hints, and the UI chrome from the recording.
@@ -285,6 +288,7 @@ Technical rules: MediaPipe Tasks Vision (HandLandmarker and ImageSegmenter selfi
 7. IF a recording fails, THEN THE App SHALL re-enable the Record_Button and show an error message.
 8. THE Recorder SHALL name the file haunted-photobooth-<timestamp>.webm.
 9. THE Recorder SHALL keep all recorded data in the browser.
+10. THE Recorder SHALL include the Title_Card in the recording, because the Title_Card is drawn into the Output_Canvas.
 
 ### Requirement 17: Rendering Architecture and Deployment (All Phases)
 
