@@ -9,8 +9,8 @@ import frag from '../shaders/flames.frag.glsl?raw';
 import type { FrameState, RenderPass } from './Pass.ts';
 
 /**
- * Three ghost-fire layers (green, purple, bone) hugging the person silhouette,
- * drawn premultiplied over the target. Disabled without a segmenter.
+ * A single soft mint ghost-fire rising behind the person, drawn premultiplied
+ * over the target. Disabled without a segmenter.
  */
 export class FlamesPass implements RenderPass {
   readonly name = 'flames';
@@ -54,9 +54,8 @@ export class FlamesPass implements RenderPass {
     this.program.setInt('uMaskBlur', 0);
     this.program.setFloat('uResolution', target ? [target.w, target.h] : [frame.size.w, frame.size.h]);
     this.program.setFloat('uStepTime', frame.stepTimeSec);
-    this.program.setFloat('uGreen', PALETTE_VEC3.toxicGreen);
-    this.program.setFloat('uPurple', PALETTE_VEC3.deepPurple);
-    this.program.setFloat('uBone', PALETTE_VEC3.bone);
+    this.program.setFloat('uMint', PALETTE_VEC3.ghostMint);
+    this.program.setFloat('uMintShadow', PALETTE_VEC3.mintShadow);
     this.quad.draw();
     gl.disable(gl.BLEND);
   }

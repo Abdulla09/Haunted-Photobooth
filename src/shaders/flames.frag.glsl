@@ -4,11 +4,14 @@ precision highp float;
 uniform sampler2D uMaskBlur; // blurred person mask, unmirrored, top-row-first
 uniform vec2 uResolution;
 uniform float uStepTime;     // quantized to the 18 fps step
-uniform vec3 uGreen;
-uniform vec3 uPurple;
-uniform vec3 uBone;
+uniform vec3 uMint;          // ghost mint #8CFFC1 (edges)
+uniform vec3 uMintShadow;    // mint shadow #2E8C6A (inside)
 in vec2 vUv;
 out vec4 outColor;
+
+const float MAX_ALPHA = 0.8;
+const float REACH = 0.45;    // max upward reach, fraction of frame height
+const int TAPS = 8;
 
 float hash(vec2 p) {
   p = fract(p * vec2(123.34, 456.21));
@@ -27,11 +30,6 @@ float valueNoise(vec2 p) {
   return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
 }
 
-// Mask is inferred on the unmirrored frame: mirror X, flip Y.
-float maskAt(vec2 uv) {
-  return texture(uMaskBlur, vec2(1.0 - uv.x, 1.0 - uv.y)).r;
-}
-
 float fbm(vec2 p) {
   float v = 0.0;
   float a = 0.5;
@@ -43,37 +41,50 @@ float fbm(vec2 p) {
   return v; // ~0..0.94
 }
 
-// One flame layer: hard-edged coverage (0 or 1) with jagged upward tongues.
-float layer(vec2 uv, float aspect, float freq, float speed, float phase,
-            float rise, float sway, float threshold, float sharp) {
-  float t = uStepTime;
-  vec2 p = vec2(uv.x * aspect * freq, uv.y * freq * 0.5);
-  // Domain warp: rising, flickering offsets (stepped via uStepTime only).
-  vec2 w = vec2(fbm(p + vec2(phase, -t * speed * 0.6)),
-                fbm(p + vec2(phase + 7.7, -t * speed * 0.9)));
-  vec2 q = p + (w - 0.47) * 2.6 + vec2(0.0, -t * speed);
-  float n = fbm(q);
-  // Ridged noise gives pointed peaks; sharpen so tongues are spiky.
-  float tip = 1.0 - abs(2.0 * n - 1.0);
-  tip = pow(clamp(tip, 0.0, 1.0), sharp);
-  // Fast per-step flicker on tongue height.
-  float flick = 0.75 + 0.25 * hash(vec2(floor(uv.x * aspect * freq), t * 3.0 + phase));
-  float h = tip * flick;
-  vec2 s = uv + vec2((w.x - 0.47) * sway, -rise * h);
-  return step(threshold, maskAt(s));
+// Mask is inferred on the unmirrored frame: mirror X, flip Y.
+float maskAt(vec2 uv) {
+  return texture(uMaskBlur, vec2(1.0 - uv.x, 1.0 - uv.y)).r;
 }
 
 void main() {
   float aspect = uResolution.x / uResolution.y;
+  float t = uStepTime;
 
-  // Back to front: outer green (tallest), middle purple, inner bone (shortest).
-  float aG = layer(vUv, aspect, 7.0, 2.2, 0.0, 0.22, 0.05, 0.20, 1.6);
-  float aP = layer(vUv, aspect, 9.0, 2.6, 17.3, 0.14, 0.035, 0.24, 1.6);
-  float aB = layer(vUv, aspect, 15.0, 3.4, 41.7, 0.06, 0.03, 0.42, 3.0);
+  // Wispy domain-warped noise; scrolls upward over stepped time only.
+  vec2 p = vec2(vUv.x * aspect * 3.2, vUv.y * 2.2 - t * 0.9);
+  vec2 w = vec2(fbm(p + vec2(0.0, t * 0.2)), fbm(p + vec2(7.7, -t * 0.35)));
+  float n = fbm(p + (w - 0.47) * 2.2);
 
-  // Premultiplied "over" accumulation.
-  vec4 acc = vec4(uGreen * aG, aG);
-  acc = vec4(uPurple * aP, aP) + acc * (1.0 - aP);
-  acc = vec4(uBone * aB, aB) + acc * (1.0 - aB);
-  outColor = acc;
+  // Column weight: tall over the body core, little rise at the sides.
+  float core = 0.5 * (maskAt(vUv + vec2(0.18 / aspect, -0.25)) +
+                      maskAt(vUv + vec2(-0.18 / aspect, -0.25)));
+  float reach = REACH * (0.35 + 0.65 * core) * (0.6 + 0.8 * n);
+
+  // Curl: x-offset grows with height above the sampled silhouette.
+  // Accumulate soft coverage from taps below (flames lick upward).
+  float cover = 0.0;
+  for (int i = 0; i < TAPS; i++) {
+    float f = float(i) / float(TAPS - 1);
+    float d = f * reach;
+    float curl = sin(vUv.y * 14.0 - t * 4.0 + n * 6.0) * 0.035 * f
+               + (w.x - 0.47) * 0.08 * f;
+    float m = maskAt(vUv + vec2(curl, -d));
+    float fall = 1.0 - f;
+    cover = max(cover, m * fall * fall);
+  }
+
+  // Tongue tips: noise erodes the fringe so edges break into curling wisps.
+  float tongues = smoothstep(0.25, 0.75, n + 0.25 * (w.y - 0.47));
+  float density = cover * mix(0.55, 1.15, tongues);
+
+  // Soft edge plus a wider glow falloff (no hard step).
+  float body = smoothstep(0.08, 0.55, density);
+  float glow = smoothstep(0.0, 0.3, density) * 0.35;
+  float a = clamp(max(body, glow), 0.0, 1.0) * MAX_ALPHA;
+
+  // Mint shadow inside, ghost mint toward the edges.
+  vec3 col = mix(uMint, uMintShadow, smoothstep(0.35, 0.95, density));
+  col = mix(col, uMint, 0.25 * (1.0 - body)); // brighter glow rim
+
+  outColor = vec4(col * a, a); // premultiplied
 }
