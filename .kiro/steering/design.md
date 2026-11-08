@@ -1,6 +1,7 @@
 # Visual identity
-- Palette: toxic green #39FF14, deep purple #2A0845, pumpkin orange #FF6A00, bone #F2EAD3, black #0A0A0A
-- Style: anime cel-shading, halftone dots, hard rim light, stepped animation (12–18fps feel)
-- Motifs: bats, skulls, pumpkins, candy corn, coffins, eyeballs, tombstones, spiders
-- Original title text only. No copyrighted characters, logos, or show names.
+- Palette: midnight #0D0820, deep indigo #1E1450, violet #5B3FC4, lavender #B8A8FF, ghost mint #8CFFC1, mint shadow #2E8C6A
+- Style: purple duotone anime look, dark ink outlines, halftone texture, soft glowing mint ghost-fire, stepped animation (12-18 fps feel)
+- Motifs: ghosts only
+- No text anywhere in the scene. UI uses icons only.
+- The person must always be clearly readable: face and features visible
 - UI chrome is minimal and dark; the camera scene is the hero

@@ -525,6 +525,165 @@
         "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
         "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
         "timestamp": 1794132843849
+      },
+      {
+        "executionId": "d8fbb94f-bb1d-4f3b-a5fd-3bc244a2d894",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794133419590
+      },
+      {
+        "executionId": "d8fbb94f-bb1d-4f3b-a5fd-3bc244a2d894",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794133519566
+      }
+    ],
+    "16.1 Implement `shatter/wedges.ts`": [
+      {
+        "executionId": "d8fbb94f-bb1d-4f3b-a5fd-3bc244a2d894",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794133519663
+      },
+      {
+        "executionId": "d8fbb94f-bb1d-4f3b-a5fd-3bc244a2d894",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794133577795
+      }
+    ],
+    "16.2 Write property test for wedge geometry": [
+      {
+        "executionId": "d8fbb94f-bb1d-4f3b-a5fd-3bc244a2d894",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794133578372
+      },
+      {
+        "executionId": "d8fbb94f-bb1d-4f3b-a5fd-3bc244a2d894",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794133626059
+      }
+    ],
+    "16.3 Implement `shatter/timeline.ts` and `clampOrigin`": [
+      {
+        "executionId": "d8fbb94f-bb1d-4f3b-a5fd-3bc244a2d894",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794133626981
+      },
+      {
+        "executionId": "d8fbb94f-bb1d-4f3b-a5fd-3bc244a2d894",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794133681405
+      }
+    ],
+    "16.6 Implement `ShatterPass` and `shatter.frag.glsl`": [
+      {
+        "executionId": "d8fbb94f-bb1d-4f3b-a5fd-3bc244a2d894",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794133682027
+      },
+      {
+        "executionId": "d8fbb94f-bb1d-4f3b-a5fd-3bc244a2d894",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794133810245
+      }
+    ],
+    "16.7 Implement `ShatterDriver` and wire Phase 5": [
+      {
+        "executionId": "d8fbb94f-bb1d-4f3b-a5fd-3bc244a2d894",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794133810954
+      },
+      {
+        "executionId": "d8fbb94f-bb1d-4f3b-a5fd-3bc244a2d894",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794134058354
+      }
+    ],
+    "17. Checkpoint - Phase 5 complete": [
+      {
+        "executionId": "d8fbb94f-bb1d-4f3b-a5fd-3bc244a2d894",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794134058600
+      },
+      {
+        "executionId": "d8fbb94f-bb1d-4f3b-a5fd-3bc244a2d894",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794134102904
+      },
+      {
+        "executionId": "9b53a6a0-2df1-4df5-a5ad-8747fab2a316",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794134335997
+      },
+      {
+        "executionId": "9b53a6a0-2df1-4df5-a5ad-8747fab2a316",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794134435286
+      }
+    ],
+    "16. Phase 5: Shatter transition and return": [
+      {
+        "executionId": "d8fbb94f-bb1d-4f3b-a5fd-3bc244a2d894",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794134058829
+      }
+    ],
+    "18.1 Implement `recorder/format.ts`": [
+      {
+        "executionId": "9b53a6a0-2df1-4df5-a5ad-8747fab2a316",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794134435901
+      },
+      {
+        "executionId": "9b53a6a0-2df1-4df5-a5ad-8747fab2a316",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794134732121
+      }
+    ],
+    "18.4 Implement `Recorder` and `RecordButton`": [
+      {
+        "executionId": "9b53a6a0-2df1-4df5-a5ad-8747fab2a316",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794134733391
+      },
+      {
+        "executionId": "9b53a6a0-2df1-4df5-a5ad-8747fab2a316",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794135224307
+      }
+    ],
+    "18.5 Wire the recorder into `App`": [
+      {
+        "executionId": "9b53a6a0-2df1-4df5-a5ad-8747fab2a316",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794135224011
+      },
+      {
+        "executionId": "9b53a6a0-2df1-4df5-a5ad-8747fab2a316",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794135660927
+      }
+    ],
+    "19. Final checkpoint - All phases complete": [
+      {
+        "executionId": "9b53a6a0-2df1-4df5-a5ad-8747fab2a316",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794135661042
+      },
+      {
+        "executionId": "9b53a6a0-2df1-4df5-a5ad-8747fab2a316",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794135725125
+      },
+      {
+        "executionId": "c5905769-c9d7-427d-afc0-61c6d6ac4740",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794143836957
+      }
+    ],
+    "18. Phase 6: Recording": [
+      {
+        "executionId": "9b53a6a0-2df1-4df5-a5ad-8747fab2a316",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794135661152
       }
     ]
   }

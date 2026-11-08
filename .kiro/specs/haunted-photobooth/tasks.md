@@ -249,16 +249,16 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
 - [x] 15. Checkpoint - Phase 4 complete
   - Run `npm run test` and `npm run build`; confirm the dev-mode `GlState.assertBaseline` guard reports no warnings across the Three boundary. Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 16. Phase 5: Shatter transition and return
-  - [ ] 16.1 Implement `shatter/wedges.ts`
+- [x] 16. Phase 5: Shatter transition and return
+  - [x] 16.1 Implement `shatter/wedges.ts`
     - `generateWedges(seed)`: 13 weights in [0.55, 1.45], normalized to 360°, nudged until cyclically adjacent widths differ by at least 1.0° and each width ≥ 8°; boundaries from a random phase; per-wedge direction, speed, spin, z
     - _Requirements: 14.1, 14.2_
 
-  - [ ] 16.2 Write property test for wedge geometry
+  - [x] 16.2 Write property test for wedge geometry
     - **Property 17: Wedge geometry is valid**
     - **Validates: Requirements 14.1, 14.2**
 
-  - [ ] 16.3 Implement `shatter/timeline.ts` and `clampOrigin`
+  - [x] 16.3 Implement `shatter/timeline.ts` and `clampOrigin`
     - `timeline(tMs)`: crack `[0, 400)`, separate `[400, 1600]`, then done; `clampOrigin` clamps to [0,1]²
     - _Requirements: 14.3, 14.4, 14.6, 14.8_
 
@@ -270,11 +270,11 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
     - **Property 19: Origin clamping**
     - **Validates: Requirements 14.8**
 
-  - [ ] 16.6 Implement `ShatterPass` and `shatter.frag.glsl`
+  - [x] 16.6 Implement `ShatterPass` and `shatter.frag.glsl`
     - Wedge inverse transforms in z order sampling `uNormal`, uncovered pixels show `uMonster`; jittered toxic green cracks with bone center; edge glow fading with separation; wedges fully off-screen at `separate = 1`; enabled only in Transitioning
     - _Requirements: 14.1, 14.3, 14.4, 14.5, 14.10, 14.11_
 
-  - [ ] 16.7 Implement `ShatterDriver` and wire Phase 5
+  - [x] 16.7 Implement `ShatterDriver` and wire Phase 5
     - `ShatterDriver` replaces `ImmediateDriver`: calls `onBurstStart` once at the start of separation and `onComplete` once at the end, evaluated on the stepped clock
     - Transitioning pipeline: Monster passes without `PresentPass`, `FeedPass → targets.normal`, then `ShatterPass`; pass the clamped Fist_Position as origin; return to Normal_Mode renders the feed immediately
     - _Requirements: 14.7, 14.9, 14.10, 15.1, 15.2_
@@ -283,11 +283,11 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
     - Driver calls burst start once then complete once; burst start occurs at separation start, not during the crack phase; Transitioning pass list; no wedge artifacts after return (`ShatterPass` disabled outside Transitioning); cooldown (3000 ms) exceeds shatter length
     - _Requirements: 14.7, 14.9, 14.10, 15.1, 15.3_
 
-- [ ] 17. Checkpoint - Phase 5 complete
+- [x] 17. Checkpoint - Phase 5 complete
   - Run `npm run test` and `npm run build`. Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 18. Phase 6: Recording
-  - [ ] 18.1 Implement `recorder/format.ts`
+- [x] 18. Phase 6: Recording
+  - [x] 18.1 Implement `recorder/format.ts`
     - `recordingFileName(date)` → `haunted-photobooth-YYYYMMDD-HHmmss.webm`; `remainingSeconds(elapsedMs)` → `ceil((5000 - elapsed) / 1000)` clamped to [0,5]
     - _Requirements: 16.4, 16.8_
 
@@ -299,12 +299,12 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
     - **Property 21: Recording file name format**
     - **Validates: Requirements 16.8**
 
-  - [ ] 18.4 Implement `Recorder` and `RecordButton`
+  - [x] 18.4 Implement `Recorder` and `RecordButton`
     - `isSupported()` check with WebM codec selection; `captureStream(0)` plus `requestFrame()` at most every 33 ms; `MediaRecorder` at 5 Mbps, auto-stop after 5000 ms; in-memory chunks, download via temporary anchor then revoke URL; nothing uploaded
     - `RecordButton` labeled "Record 5s": disabled with remaining seconds while recording (updated 4x per second), disabled with an "unsupported" message when needed, re-enabled with an error message on failure
     - _Requirements: 16.1, 16.2, 16.3, 16.4, 16.6, 16.7, 16.9_
 
-  - [ ] 18.5 Wire the recorder into `App`
+  - [x] 18.5 Wire the recorder into `App`
     - Call `recorder.onFrame(nowMs)` after each rendered frame; capture only the Output_Canvas so Hints, Debug_Overlay, button, and screens are excluded while the Title_Card, particles, and effects are included
     - _Requirements: 16.2, 16.5, 16.10_
 
@@ -312,7 +312,7 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
     - Mocked `MediaRecorder`: unsupported path disables the button with a message; error path re-enables the button with a message; countdown display; file download uses the formatted name
     - _Requirements: 16.4, 16.6, 16.7, 16.8_
 
-- [ ] 19. Final checkpoint - All phases complete
+- [x] 19. Final checkpoint - All phases complete
   - Run `npm run test` and `npm run build`; confirm static assets are produced for AWS Amplify and the `three` import grep test passes. Ensure all tests pass, ask the user if questions arise.
 
 ## Notes
