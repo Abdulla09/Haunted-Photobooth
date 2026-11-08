@@ -15,13 +15,13 @@ const SHAKE_OFFSETS: ReadonlyArray<readonly [number, number]> = [
   [-SHAKE_PX, SHAKE_PX * 0.5],
 ];
 
-/** Scale 2.5 -> 1.0 with overshoot (ease-out-back). */
+/** Scale 1.8 -> 1.0 with overshoot (ease-out-back). */
 export function slamScale(p: number): number {
   const c1 = 1.70158;
   const c3 = c1 + 1;
   const q = p - 1;
   const eased = 1 + c3 * q * q * q + c1 * q * q;
-  return 1 + 1.5 * (1 - eased);
+  return 1 + 0.8 * (1 - eased);
 }
 
 /** Draws the baked title card over `targets.monster` (premultiplied). */

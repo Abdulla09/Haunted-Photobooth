@@ -15,8 +15,8 @@ export interface Bounds {
   maxY: number;
 }
 
-export const MIN_SPEED = 0.8;
-export const MAX_SPEED = 2.4;
+export const MIN_SPEED = 2.4;
+export const MAX_SPEED = 5.0;
 /** Small positive z velocity (world units/s) so particles drift toward the camera. */
 export const MAX_Z_SPEED = 0.3;
 /** World-space radius used for out-of-bounds tests. */

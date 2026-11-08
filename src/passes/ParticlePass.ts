@@ -11,7 +11,10 @@ import type { FrameState, RenderPass } from './Pass.ts';
 const CAMERA_FOV = 40;
 const CAMERA_Z = 6;
 /** Uniform instance scale (geometries are about one unit wide). */
-const INSTANCE_SCALE = 0.4;
+const INSTANCE_SCALE = 0.2;
+/** Clear radius around the Person_Center as a fraction of viewport world height. */
+const CLEAR_RADIUS_FRAC = 0.28;
+const MIN_NEAR_SCALE = 0.05;
 /** Largest number of simulation steps applied for a single rendered frame. */
 const MAX_STEPS_PER_FRAME = 3;
 const STEP_DT = 1 / CONFIG.STEP_RATE;
@@ -220,6 +223,10 @@ export class ParticlePass implements RenderPass {
     const meshes = this.meshes;
     if (!sim || !meshes) return;
     const counts = new Array<number>(PARTICLE_KINDS.length).fill(0);
+    const vb = this.viewportWorldBounds();
+    const clearR = (vb.maxY - vb.minY) * CLEAR_RADIUS_FRAC;
+    const cwx = this.worldCenter.x;
+    const cwy = this.worldCenter.y;
     for (let i = 0; i < sim.count; i++) {
       const ki = sim.kind[i];
       const slot = counts[ki]++;
@@ -227,6 +234,10 @@ export class ParticlePass implements RenderPass {
       this.tmpAxis.set(sim.ax[i], sim.ay[i], sim.az[i]);
       this.tmpQuat.setFromAxisAngle(this.tmpAxis, sim.angle[i]);
       this.tmpPos.set(sim.px[i], sim.py[i], sim.pz[i]);
+      const dist = Math.hypot(sim.px[i] - cwx, sim.py[i] - cwy);
+      const t = Math.min(1, Math.max(0, dist / clearR));
+      const grow = MIN_NEAR_SCALE + (1 - MIN_NEAR_SCALE) * (t * t * (3 - 2 * t));
+      this.tmpScale.setScalar(INSTANCE_SCALE * grow);
       this.tmpMatrix.compose(this.tmpPos, this.tmpQuat, this.tmpScale);
       km.mesh.setMatrixAt(slot, this.tmpMatrix);
     }
