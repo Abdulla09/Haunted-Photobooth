@@ -15,8 +15,6 @@ export const CONFIG = {
   /** Shatter transition (ms) */
   SHATTER_CRACK_MS: 400,
   SHATTER_SEPARATE_MS: 1200,
-  /** Title card slam-in (ms) */
-  SLAM_MS: 300,
   /** Output canvas max width (px) */
   MAX_CANVAS_WIDTH: 1280,
   /** Segmentation mask side (px) */

@@ -8,7 +8,6 @@ import { FlamesPass } from './FlamesPass.ts';
 import { MaskBlurPass } from './MaskBlurPass.ts';
 import { ParticleCompositePass } from './ParticleCompositePass.ts';
 import { ParticlePass } from './ParticlePass.ts';
-import { TitleCardPass } from './TitleCardPass.ts';
 import { ShatterPass } from './ShatterPass.ts';
 import { generateWedges } from '../shatter/wedges.ts';
 
@@ -55,8 +54,6 @@ export class Pipeline {
     const particles = new ParticlePass();
     const particleComposite = new ParticleCompositePass(particles);
     this.particles = particles;
-    // Title card draws over the monster target only while a burst is active.
-    const titleCard = new TitleCardPass();
     // Transitioning: Monster passes (no present) render into targets.monster,
     // the feed renders into targets.normal, and the shatter pass composites both.
     const transFeed = new FeedPass((f) => f.targets.normal);
@@ -71,7 +68,6 @@ export class Pipeline {
       flames,
       monsterPerson,
       particleComposite,
-      titleCard,
       present,
     ];
     this.transitioning = [
@@ -81,7 +77,6 @@ export class Pipeline {
       flames,
       monsterPerson,
       particleComposite,
-      titleCard,
       transFeed,
       shatter,
     ];
@@ -94,7 +89,6 @@ export class Pipeline {
       flames,
       monsterPerson,
       particleComposite,
-      titleCard,
       present,
       transFeed,
     ];
