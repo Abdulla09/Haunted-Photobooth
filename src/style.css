@@ -105,3 +105,45 @@ body {
   opacity: 0.5;
   cursor: default;
 }
+
+/* Hints: bone text, hard black outline, green / orange accent */
+#hint {
+  color: #f2ead3;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-shadow:
+    -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000,
+    0 -2px 0 #000, 0 2px 0 #000, -2px 0 0 #000, 2px 0 0 #000;
+  border-bottom: 3px solid transparent;
+}
+
+#hint.hint-fist {
+  border-bottom-color: #39ff14;
+}
+
+#hint.hint-palm {
+  border-bottom-color: #ff6a00;
+}
+
+/* Debug overlay */
+.debug-canvas {
+  position: fixed;
+  pointer-events: none;
+}
+
+.debug-canvas[hidden],
+.debug-stats[hidden] {
+  display: none;
+}
+
+.debug-stats {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  margin: 0;
+  padding: 6px 8px;
+  font: 12px/1.4 ui-monospace, monospace;
+  color: #39ff14;
+  background: rgba(10, 10, 10, 0.7);
+  pointer-events: none;
+}
