@@ -116,6 +116,25 @@ export class Recorder {
     this.track.requestFrame();
   }
 
+  /** Stops any active recording without downloading (e.g. on pagehide). */
+  dispose(): void {
+    const rec = this.recorder;
+    this.cleanup();
+    if (rec) {
+      rec.onstop = null;
+      rec.ondataavailable = null;
+      rec.onerror = null;
+      if (rec.state !== 'inactive') {
+        try {
+          rec.stop();
+        } catch {
+          /* ignore */
+        }
+      }
+    }
+    this.listeners.clear();
+  }
+
   private stop(): void {
     const rec = this.recorder;
     if (rec && rec.state !== 'inactive') {

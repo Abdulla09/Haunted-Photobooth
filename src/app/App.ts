@@ -11,10 +11,12 @@ import type { MaskResult } from '../inference/Segmenter'
 import { ModeController } from '../mode/ModeController'
 import type { FrameState } from '../passes/Pass'
 import { Pipeline } from '../passes/Pipeline'
+import { Recorder } from '../recorder/Recorder'
 import { ShatterDriver } from '../shatter/ShatterDriver'
 import { timeline } from '../shatter/timeline'
 import { DebugOverlay } from '../ui/DebugOverlay'
 import { Hints } from '../ui/Hints'
+import { RecordButton } from '../ui/RecordButton'
 import { PermissionScreen } from '../ui/PermissionScreen'
 import { WebGLMissingScreen } from '../ui/WebGLMissingScreen'
 import { CONFIG } from './config'
@@ -53,6 +55,7 @@ export class App {
   private ctx: GlContext | null = null
   private debug: DebugOverlay | null = null
   private inference: InferenceScheduler | null = null
+  private recorder: Recorder | null = null
   private permission: PermissionScreen | null = null
 
   private videoTex: WebGLTexture | null = null
@@ -103,6 +106,8 @@ export class App {
       if (next === 'transitioning') this.pipeline.beginShatter((Math.random() * 0x7fffffff) | 0)
     })
     this.debug = new DebugOverlay(this.overlays, this.canvas)
+    this.recorder = new Recorder(this.canvas)
+    new RecordButton(byId('record'), this.recorder)
 
     this.permission = new PermissionScreen(
       this.screens,
@@ -251,6 +256,8 @@ export class App {
     }
     this.pipeline.render(state)
     GlState.assertBaseline(gl)
+    // Same task as drawing, so requestFrame captures the just-drawn buffer.
+    this.recorder?.onFrame(nowMs)
 
     this.debug?.update({
       nowMs,
@@ -290,6 +297,7 @@ export class App {
     window.removeEventListener('keydown', this.onKeyDown)
     window.removeEventListener('resize', this.onResize)
     window.removeEventListener('pagehide', this.onPageHide)
+    this.recorder?.dispose()
     this.inference?.stop()
     this.camera.stop()
     const ctx = this.ctx
