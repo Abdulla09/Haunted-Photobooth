@@ -6,7 +6,7 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
 
 ## Tasks
 
-- [ ] 1. Phase 1: Project setup and pure foundations
+- [x] 1. Phase 1: Project setup and pure foundations
   - [x] 1.1 Set up dependencies, scripts, and stage layout
     - Add `@mediapipe/tasks-vision`, `vitest`, `fast-check` as exact-version dependencies; add `"test": "vitest --run"`
     - Add `scripts/copy-mediapipe.mjs` (copies WASM to `public/mediapipe/wasm/`) and run it as `predev` and `prebuild`
@@ -15,7 +15,7 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
     - Write dark minimal `src/style.css` (contain-fit canvas on `#0A0A0A`)
     - _Requirements: 1.5, 1.6, 17.2, 17.4, 17.5, 17.6_
 
-  - [ ] 1.2 Implement `config.ts`, `palette.ts`, `rng.ts`, `SteppedClock.ts`, `LatestSlot.ts`, and `fitRect`
+  - [x] 1.2 Implement `config.ts`, `palette.ts`, `rng.ts`, `SteppedClock.ts`, `LatestSlot.ts`, and `fitRect`
     - Constants: hold times, cooldowns, step rate 18, particle count 150, record 5000 ms, shatter 400 + 1200 ms, slam 300 ms, max width 1280, mask size 256
     - Palette hex and normalized vec3 values; seeded mulberry32 PRNG
     - `SteppedClock.update` returns `{ step, stepTimeSec, changed }`; `LatestSlot.publish/read` with strictly increasing version
@@ -34,18 +34,18 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
     - **Property 9: Latest-result handoff never blocks and never goes stale**
     - **Validates: Requirements 8.3, 8.4**
 
-- [ ] 2. Phase 1: WebGL2 foundation and Normal_Mode rendering
-  - [ ] 2.1 Implement GL core modules
+- [x] 2. Phase 1: WebGL2 foundation and Normal_Mode rendering
+  - [x] 2.1 Implement GL core modules
     - `GlContext` (WebGL2 creation with the design's attributes, canvas sizing, `webglcontextlost` handling), `GlState` (`applyBaseline`, `begin`, DEV-only `assertBaseline`), `Quad`, `Program` (compile/link with info log and uniform cache), `Targets`, `Textures` (video texture, `R8` mask texture with `texStorage2D`, `texSubImage2D` upload with alignment restore)
     - _Requirements: 4.2, 17.7, 1.4_
 
-  - [ ] 2.2 Implement pass interface, pipeline, `FeedPass`, and `PresentPass`
+  - [x] 2.2 Implement pass interface, pipeline, `FeedPass`, and `PresentPass`
     - `Pass.ts` (`RenderPass`, `FrameState`), `Pipeline.ts` with Normal / Monster / Transitioning lists (Monster = `FeedPass → PresentPass` for now)
     - Shaders `fullscreen.vert.glsl`, `feed.frag.glsl` (mirrored), `present.frag.glsl`
     - _Requirements: 1.2, 5.6, 15.2, 17.1, 17.2_
 
-- [ ] 3. Phase 1: Camera and permission screens
-  - [ ] 3.1 Implement `CameraService`, `PermissionScreen`, and `WebGLMissingScreen`
+- [x] 3. Phase 1: Camera and permission screens
+  - [x] 3.1 Implement `CameraService`, `PermissionScreen`, and `WebGLMissingScreen`
     - `getUserMedia` with error classification (`denied`, `no_camera`, `unavailable`)
     - Permission screen states that the camera is required and data stays in the browser; "Try again" retries and hides the screen on success; "no camera detected" variant
     - WebGL2-missing screen shows that WebGL2 is required and stops startup
@@ -55,8 +55,8 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
     - Mocked `getUserMedia`: denied, not found, in use; Try-again flow shows and hides the screen
     - _Requirements: 2.1, 2.4, 2.5, 2.6_
 
-- [ ] 4. Phase 1: Inference
-  - [ ] 4.1 Implement `maskMath.ts`
+- [x] 4. Phase 1: Inference
+  - [x] 4.1 Implement `maskMath.ts`
     - `toU8` (clamped float to byte), `personCenter` (x-mirrored centroid of pixels ≥ 128, default `(0.5, 0.5)` below 16 pixels)
     - _Requirements: 4.2, 4.3, 4.4, 4.6_
 
@@ -68,44 +68,44 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
     - **Property 6: Person_Center lies inside the person pixels' bounds, is mirrored, and defaults to the center**
     - **Validates: Requirements 4.4, 4.6**
 
-  - [ ] 4.4 Implement `HandTracker`, `Segmenter`, and `InferenceScheduler`
+  - [x] 4.4 Implement `HandTracker`, `Segmenter`, and `InferenceScheduler`
     - GPU-delegate MediaPipe models loaded from same-origin paths; 256x256 and ~320 px-wide Inference_Input canvases
     - Time-sliced scheduler (hand every tick, mask every second tick, adaptive, mask floor 10 Hz), `requestVideoFrameCallback` when available, never awaited by the render loop
     - Publish to `LatestSlot` (copy the mask inside the callback, compute Person_Center there); catch errors and disable a model after three consecutive failures; clear `hasHands` / `hasSegmenter` on load failure
     - _Requirements: 3.1, 3.7, 4.1, 4.3, 4.5, 8.1, 8.2, 8.3, 8.4_
 
-- [ ] 5. Phase 1: Gesture recognition
-  - [ ] 5.1 Implement `classify.ts`
+- [x] 5. Phase 1: Gesture recognition
+  - [x] 5.1 Implement `classify.ts`
     - Fist, Open_Palm, Other from landmark indices per the design; mutually exclusive by construction
     - _Requirements: 3.2_
 
-  - [ ] 5.2 Write property test for gesture classification
+  - [x] 5.2 Write property test for gesture classification
     - **Property 2: Gesture classification is exclusive and matches the definitions**
     - **Validates: Requirements 3.2**
 
-  - [ ] 5.3 Implement `GestureDetector.ts`
+  - [x] 5.3 Implement `GestureDetector.ts`
     - Hold timers with injected time (Fist 250 ms, Open_Palm 500 ms only in Monster_Mode), reset on class change or lost hand, latched events, `fistPosition = (1 - palm.x, palm.y)` using landmark 9
     - _Requirements: 3.3, 3.4, 3.5, 3.6_
 
-  - [ ] 5.4 Write property test for hold timing
+  - [x] 5.4 Write property test for hold timing
     - **Property 3: Hold timing raises events exactly when a hold completes**
     - **Validates: Requirements 3.3, 3.4, 3.5**
 
-  - [ ] 5.5 Write property test for Fist_Position mirroring
+  - [x] 5.5 Write property test for Fist_Position mirroring
     - **Property 4: Fist position is mirrored horizontally**
     - **Validates: Requirements 3.6**
 
-- [ ] 6. Phase 1: Mode controller
-  - [ ] 6.1 Implement `ModeController.ts` and `ImmediateDriver`
+- [x] 6. Phase 1: Mode controller
+  - [x] 6.1 Implement `ModeController.ts` and `ImmediateDriver`
     - States Normal / Transitioning / Monster, `dispatch(event, nowMs)` with cooldown first (3000 ms on Trigger, 1500 ms on Return), `burstStartMs`, `onChange` and `onBurst` observers
     - `TransitionDriver` interface; `ImmediateDriver.start` calls `onBurstStart` then `onComplete` synchronously
     - _Requirements: 5.1, 5.2, 5.4, 5.5, 5.6, 5.7, 5.9, 15.3, 15.4_
 
-  - [ ] 6.2 Write property test for cooldown
+  - [x] 6.2 Write property test for cooldown
     - **Property 7: Cooldown ignores every event**
     - **Validates: Requirements 5.4, 15.3**
 
-  - [ ] 6.3 Write property test for the state machine
+  - [x] 6.3 Write property test for the state machine
     - **Property 8: Mode_Controller matches the reference state machine**
     - **Validates: Requirements 5.2, 5.5, 5.7, 5.9, 15.4**
 
@@ -113,13 +113,13 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
     - `ImmediateDriver` reaches Monster_Mode synchronously with burst notified before completion; initial state is Normal; Return in Transitioning ignored
     - _Requirements: 5.1, 5.6, 5.9_
 
-- [ ] 7. Phase 1: UI and app wiring
-  - [ ] 7.1 Implement `Hints.ts` and `DebugOverlay.ts`
+- [x] 7. Phase 1: UI and app wiring
+  - [x] 7.1 Implement `Hints.ts` and `DebugOverlay.ts`
     - Hints: aria-live bottom-center HTML, synchronous update on state change ("Make a fist to transform", "Open palm to return", hidden in Transitioning and while a screen is visible), bone text with hard black outline and green / orange accent
     - Debug overlay: separate canvas and stats, hidden at start; draws 21 landmarks and connections, mask tint, FPS updated each second, gesture class, mode state, per-model inference times
     - _Requirements: 6.1, 6.3, 6.4, 6.5, 6.6, 7.1, 7.2, 7.3, 7.4, 7.5, 7.6_
 
-  - [ ] 7.2 Implement `App.ts` and `main.ts` and wire Phase 1
+  - [x] 7.2 Implement `App.ts` and `main.ts` and wire Phase 1
     - Bootstrap: GL context → camera → inference → render loop (rAF, not awaiting inference); resize recomputes only the CSS rect; mask upload when version changes; skip frames until `videoWidth > 0`
     - Keyboard: Space (with `preventDefault`) raises Trigger at `(0.5, 0.5)` in Normal and Return in Monster, always active; D toggles debug overlay
     - Wire GestureDetector → ModeController → Hints; context-lost message with Reload; `pagehide` disposal
@@ -129,7 +129,7 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
     - Hint text per mode and synchronous update; Space behavior and `preventDefault`; D toggle; pass list order per mode
     - _Requirements: 5.3, 5.8, 5.10, 6.2, 7.1, 7.2, 7.3, 7.6, 17.1_
 
-- [ ] 8. Checkpoint - Phase 1 complete
+- [x] 8. Checkpoint - Phase 1 complete
   - Run `npm run test` and `npm run build`; ensure both pass and the app is runnable with `npm run dev`. Ask the user if questions arise.
 
 - [ ] 9. Phase 2: Person shader

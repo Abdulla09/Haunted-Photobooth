@@ -1,5 +1,14 @@
 {
-  "pbtResults": {},
+  "pbtResults": {
+    "6.2 Write property test for cooldown": {
+      "status": "passed",
+      "lastRunTimestamp": 1794127035085
+    },
+    "6.3 Write property test for the state machine": {
+      "status": "passed",
+      "lastRunTimestamp": 1794127108455
+    }
+  },
   "executionHistory": {
     "1.1 Set up dependencies, scripts, and stage layout": [
       {
@@ -11,6 +20,259 @@
         "executionId": "154095f2-df4a-48cc-a39d-d6fa25332aa9",
         "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
         "timestamp": 1794125408849
+      }
+    ],
+    "1.2 Implement `config.ts`, `palette.ts`, `rng.ts`, `SteppedClock.ts`, `LatestSlot.ts`, and `fitRect`": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794125617194
+      },
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794125691202
+      }
+    ],
+    "1. Phase 1: Project setup and pure foundations": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794125691306
+      }
+    ],
+    "2.1 Implement GL core modules": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794125691765
+      },
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794125823597
+      }
+    ],
+    "2.2 Implement pass interface, pipeline, `FeedPass`, and `PresentPass`": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794125827939
+      },
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794125891875
+      }
+    ],
+    "2. Phase 1: WebGL2 foundation and Normal_Mode rendering": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794125891958
+      }
+    ],
+    "3.1 Implement `CameraService`, `PermissionScreen`, and `WebGLMissingScreen`": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794125894679
+      },
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794125987753
+      }
+    ],
+    "3. Phase 1: Camera and permission screens": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794125987829
+      }
+    ],
+    "4.1 Implement `maskMath.ts`": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794125988224
+      },
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794126354175
+      }
+    ],
+    "4.4 Implement `HandTracker`, `Segmenter`, and `InferenceScheduler`": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794126357049
+      },
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794126470296
+      }
+    ],
+    "4. Phase 1: Inference": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794126470395
+      }
+    ],
+    "5.1 Implement `classify.ts`": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794126473369
+      },
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794126556547
+      }
+    ],
+    "5.2 Write property test for gesture classification": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794126559307
+      },
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794126617579
+      }
+    ],
+    "5.3 Implement `GestureDetector.ts`": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794126620332
+      },
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794126696302
+      }
+    ],
+    "5.4 Write property test for hold timing": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794126700436
+      },
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794126798395
+      }
+    ],
+    "5.5 Write property test for Fist_Position mirroring": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794126801615
+      },
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794126867976
+      }
+    ],
+    "5. Phase 1: Gesture recognition": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794126868193
+      }
+    ],
+    "6.1 Implement `ModeController.ts` and `ImmediateDriver`": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794126871767
+      },
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794126976234
+      }
+    ],
+    "6.2 Write property test for cooldown": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794126976699
+      },
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794127043130
+      }
+    ],
+    "6.3 Write property test for the state machine": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794127046409
+      },
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794127116614
+      }
+    ],
+    "6. Phase 1: Mode controller": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794127116759
+      }
+    ],
+    "7.1 Implement `Hints.ts` and `DebugOverlay.ts`": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794127120913
+      },
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794127230076
+      }
+    ],
+    "7.2 Implement `App.ts` and `main.ts` and wire Phase 1": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794127230252
+      },
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794127495618
+      }
+    ],
+    "7. Phase 1: UI and app wiring": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794127495794
+      }
+    ],
+    "8. Checkpoint - Phase 1 complete": [
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794127500643
+      },
+      {
+        "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794127714352
       }
     ]
   }
