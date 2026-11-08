@@ -53,9 +53,8 @@ void main() {
   float ls = clamp((l - 0.12) / 0.7, 0.0, 0.999);
   float bandIdx = floor(ls * 4.0);
   float band = bandIdx / 3.0;
-  // Flat per-band color: no luminance detail term, vertical gradient quantized
-  // to 4 steps so each band is a uniform, hard-edged tone.
-  float t = floor(smoothstep(0.1, 0.85, vUv.y) * 3.999) / 3.0;
+  // Luminance is posterized (hard bands); the vertical gradient stays smooth.
+  float t = smoothstep(0.1, 0.85, vUv.y);
   vec3 g = mix(PURPLE * 2.4, GREEN, t);
   float bright = mix(0.55, 1.0, band);
   outColor = vec4(clamp(g * bright, 0.0, 1.0), 1.0);
