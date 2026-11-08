@@ -1,4 +1,4 @@
 import './style.css'
+import { App } from './app/App'
 
-// Application bootstrap is implemented in later tasks.
-export {}
+void new App().start()
