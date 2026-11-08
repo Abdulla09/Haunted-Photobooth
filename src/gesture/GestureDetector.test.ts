@@ -68,4 +68,28 @@ describe('GestureDetector', () => {
       { numRuns: 200 },
     );
   });
+
+  // Feature: haunted-photobooth, Property 4: Fist position is mirrored horizontally
+  // **Validates: Requirements 3.6**
+  it('mirrors the fist position horizontally', () => {
+    fc.assert(
+      fc.property(
+        fc.double({ min: 0, max: 1, noNaN: true }),
+        fc.double({ min: 0, max: 1, noNaN: true }),
+        (x, y) => {
+          const lm = hand('fist')!;
+          lm[9] = { x, y, z: 0 };
+          const det = new GestureDetector();
+          det.update(lm, 1000, 'normal');
+          const ev = det.update(lm, 1000 + CONFIG.FIST_HOLD_MS, 'normal');
+          expect(ev?.type).toBe('trigger');
+          if (ev?.type === 'trigger') {
+            expect(ev.fistPosition.x).toBe(1 - x);
+            expect(ev.fistPosition.y).toBe(y);
+          }
+        },
+      ),
+      { numRuns: 100 },
+    );
+  });
 });
