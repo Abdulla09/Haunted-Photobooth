@@ -20,8 +20,8 @@ in vec2 vUv;
 out vec4 outColor;
 
 const float PI = 3.14159265358979;
-const vec3 TOXIC = vec3(0.2235, 1.0, 0.0784);   // #39FF14
-const vec3 BONE = vec3(0.9, 0.88, 0.8);
+const vec3 MINT = vec3(0.5490, 1.0, 0.7569);    // #8CFFC1
+const vec3 MINT_WHITE = vec3(0.86, 1.0, 0.93); // mint-tinted white
 
 float hash11(float n) { return fract(sin(n * 127.1) * 43758.5453); }
 
@@ -105,12 +105,12 @@ void main() {
       float edge = clamp(edgeAt(q, uBoundaries[i]) + edgeAt(q, uBoundaries[i + 1]), 0.0, 1.0) * fade;
       glow = mix(glow, 0.0, s);
       core = mix(core, 0.0, s);
-      col = mix(col, TOXIC, glow * 0.85);
-      col = mix(col, BONE, core);
-      col = mix(col, mix(TOXIC, vec3(1.0), 0.5), edge * s);
+      col = mix(col, MINT, glow * 0.85);
+      col = mix(col, MINT_WHITE, core);
+      col = mix(col, mix(MINT, vec3(1.0), 0.5), edge * s);
     } else {
-      col = mix(col, TOXIC, glow * 0.85);
-      col = mix(col, BONE, core);
+      col = mix(col, MINT, glow * 0.85);
+      col = mix(col, MINT_WHITE, core);
     }
     outColor = vec4(col, 1.0);
     return;
