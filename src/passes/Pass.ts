@@ -3,8 +3,11 @@ import type { Target } from '../gl/Targets.ts';
 
 export type Mode = 'normal' | 'transitioning' | 'monster';
 
-/** Placeholder for the shatter timeline snapshot (defined in Phase 5). */
-export type TransitionSnapshot = Record<string, unknown>;
+/** Shatter timeline snapshot (progress values in 0..1, evaluated at stepped time). */
+export interface TransitionSnapshot {
+  crack: number;
+  separate: number;
+}
 
 export interface FrameState {
   gl: WebGL2RenderingContext;
