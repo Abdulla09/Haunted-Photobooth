@@ -273,6 +273,126 @@
         "executionId": "7bd55eaa-e539-47f0-ada7-cbbe13325561",
         "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
         "timestamp": 1794127714352
+      },
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794128314426
+      },
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794128460558
+      }
+    ],
+    "9.1 Implement `PersonPass` and its shaders": [
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794128461219
+      },
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794128641045
+      }
+    ],
+    "9.2 Wire `PersonPass` into the Monster list": [
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794128641430
+      },
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794128823216
+      }
+    ],
+    "9. Phase 2: Person shader": [
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794128823297
+      }
+    ],
+    "10. Checkpoint - Phase 2 complete": [
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794128826025
+      },
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794128842951
+      }
+    ],
+    "11.1 Implement `MaskBlurPass`": [
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794128843408
+      },
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794128913318
+      }
+    ],
+    "11.2 Implement `BackgroundPass` (halftone and light rays)": [
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794128913825
+      },
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794129008315
+      }
+    ],
+    "11.3 Implement `FlamesPass`": [
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794129008716
+      },
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794129114644
+      }
+    ],
+    "11.4 Wire Phase 3 into the pipeline": [
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794129115112
+      },
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794129245430
+      }
+    ],
+    "11. Phase 3: Background and flames": [
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794129245536
+      }
+    ],
+    "12. Checkpoint - Phase 3 complete": [
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794129245872
+      },
+      {
+        "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794129264232
       }
     ]
   }

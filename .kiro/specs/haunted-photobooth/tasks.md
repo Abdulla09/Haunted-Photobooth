@@ -132,13 +132,13 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
 - [x] 8. Checkpoint - Phase 1 complete
   - Run `npm run test` and `npm run build`; ensure both pass and the app is runnable with `npm run dev`. Ask the user if questions arise.
 
-- [ ] 9. Phase 2: Person shader
-  - [ ] 9.1 Implement `PersonPass` and its shaders
+- [x] 9. Phase 2: Person shader
+  - [x] 9.1 Implement `PersonPass` and its shaders
     - `kuwahara_gradient.frag.glsl` (radius-3 four-quadrant Kuwahara at half resolution, 4-band quantized gradient map green top to purple bottom) and `person.frag.glsl` (mask `smoothstep(0.45, 0.55)`, mirrored mask UVs, hard `#FF6A00` rim light, premultiplied output)
     - Full-frame fallback without rim when `hasSegmenter` is false
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.7_
 
-  - [ ] 9.2 Wire `PersonPass` into the Monster list
+  - [x] 9.2 Wire `PersonPass` into the Monster list
     - Monster list becomes solid `#2A0845` base → `PersonPass` → `PresentPass`; Phase 1 behavior remains intact
     - _Requirements: 9.1, 9.6, 17.1_
 
@@ -146,24 +146,24 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
     - Pass enabled only in Monster_Mode; fallback flag when no segmenter; shader sources import via `?raw` from `src/shaders`
     - _Requirements: 9.1, 9.5, 9.7_
 
-- [ ] 10. Checkpoint - Phase 2 complete
+- [x] 10. Checkpoint - Phase 2 complete
   - Run `npm run test` and `npm run build`; ensure all tests pass, ask the user if questions arise.
 
-- [ ] 11. Phase 3: Background and flames
-  - [ ] 11.1 Implement `MaskBlurPass`
+- [x] 11. Phase 3: Background and flames
+  - [x] 11.1 Implement `MaskBlurPass`
     - Two-pass separable 9-tap Gaussian at 1/4 resolution, rerun only when `maskVersion` changes
     - _Requirements: 11.4_
 
-  - [ ] 11.2 Implement `BackgroundPass` (halftone and light rays)
+  - [x] 11.2 Implement `BackgroundPass` (halftone and light rays)
     - `halftone.frag.glsl`: 45° rotated 10 px grid, dot radius proportional to sqrt of luminance, palette colors on `#0A0A0A`
     - `rays.frag.glsl`: 24 rays from the smoothed Person_Center, rotating on `uStepTime`, additive bone
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5_
 
-  - [ ] 11.3 Implement `FlamesPass`
+  - [x] 11.3 Implement `FlamesPass`
     - `flames.frag.glsl`: three layers (green, purple, bone) differing in scale, phase, and color, driven by value noise and the blurred mask, stepped animation; disabled when no segmenter
     - _Requirements: 11.1, 11.2, 11.3, 11.5, 11.6_
 
-  - [ ] 11.4 Wire Phase 3 into the pipeline
+  - [x] 11.4 Wire Phase 3 into the pipeline
     - Monster order: `MaskBlurPass → BackgroundPass → FlamesPass → PersonPass → PresentPass`; per-step lerp (0.25) smoothing of Person_Center
     - _Requirements: 10.1, 11.4, 11.5, 17.1_
 
@@ -171,7 +171,7 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
     - Flames after Halftone and before Person; Flames disabled without segmenter; mask blur reruns only on a new version
     - _Requirements: 11.4, 11.5, 11.6_
 
-- [ ] 12. Checkpoint - Phase 3 complete
+- [x] 12. Checkpoint - Phase 3 complete
   - Run `npm run test` and `npm run build`; ensure all tests pass, ask the user if questions arise.
 
 - [ ] 13. Phase 4: Particle layer
