@@ -47,6 +47,10 @@ export class PersonPass implements RenderPass {
     if (!this.half) this.half = createTarget(gl, hw, hh);
     else if (this.half.w !== hw || this.half.h !== hh) this.half = resizeTarget(gl, this.half, hw, hh);
     const half = this.half;
+    // Hard band edges: no linear blending when the half-res result is upsampled.
+    gl.bindTexture(gl.TEXTURE_2D, half.tex);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 
     // Stage 1: Kuwahara then gradient map at half resolution.
     GlState.begin(gl, half, 'off');

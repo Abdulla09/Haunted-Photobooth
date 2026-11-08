@@ -36,10 +36,10 @@ void main() {
                   + lumaAt(centerPx + vec2(0.0, o)) + lumaAt(centerPx + vec2(0.0, -o)));
   l = clamp(l, 0.0, 1.0);
 
-  float radius = 0.5 * CELL * sqrt(l);
+  float radius = 0.3 * CELL * l;
   float d = length(q - cellCenterQ);
   float dotMask = 1.0 - smoothstep(radius - 0.5, radius + 0.5, d);
 
   vec3 dotColor = l < 0.33 ? uPurple : (l < 0.66 ? uOrange : uBone);
-  outColor = vec4(mix(uPaper, dotColor, dotMask), 1.0);
+  outColor = vec4(mix(uPaper, dotColor * 0.6, dotMask), 1.0);
 }

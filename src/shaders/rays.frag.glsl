@@ -18,11 +18,10 @@ void main() {
   float a = atan(d.y, d.x);
   float rayId = a * RAYS / TAU + uStepTime * 0.4;
   float ray = step(0.45, fract(rayId));
-  // Alternate toxic green / pumpkin orange wedges.
-  float odd = mod(floor(rayId), 2.0);
-  vec3 col = mix(uGreen, uOrange, odd);
+  // Single pumpkin-orange ray color alternating with dark gaps.
+  vec3 col = uOrange;
   float fade = 1.0 - smoothstep(0.1, 1.5, length(d));
-  float alpha = ray * mix(0.35, 0.8, fade);
+  float alpha = ray * mix(0.18, 0.45, fade);
   // Additive blend (ONE, ONE): color scaled by alpha.
   outColor = vec4(col * alpha, 0.0);
 }

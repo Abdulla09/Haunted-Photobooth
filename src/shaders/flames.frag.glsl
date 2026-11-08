@@ -45,7 +45,7 @@ float fbm(vec2 p) {
 
 // One flame layer: hard-edged coverage (0 or 1) with jagged upward tongues.
 float layer(vec2 uv, float aspect, float freq, float speed, float phase,
-            float rise, float sway, float threshold) {
+            float rise, float sway, float threshold, float sharp) {
   float t = uStepTime;
   vec2 p = vec2(uv.x * aspect * freq, uv.y * freq * 0.5);
   // Domain warp: rising, flickering offsets (stepped via uStepTime only).
@@ -55,7 +55,7 @@ float layer(vec2 uv, float aspect, float freq, float speed, float phase,
   float n = fbm(q);
   // Ridged noise gives pointed peaks; sharpen so tongues are spiky.
   float tip = 1.0 - abs(2.0 * n - 1.0);
-  tip = pow(clamp(tip, 0.0, 1.0), 1.6);
+  tip = pow(clamp(tip, 0.0, 1.0), sharp);
   // Fast per-step flicker on tongue height.
   float flick = 0.75 + 0.25 * hash(vec2(floor(uv.x * aspect * freq), t * 3.0 + phase));
   float h = tip * flick;
@@ -67,9 +67,9 @@ void main() {
   float aspect = uResolution.x / uResolution.y;
 
   // Back to front: outer green (tallest), middle purple, inner bone (shortest).
-  float aG = layer(vUv, aspect, 7.0, 2.2, 0.0, 0.22, 0.05, 0.20);
-  float aP = layer(vUv, aspect, 9.0, 2.6, 17.3, 0.14, 0.035, 0.24);
-  float aB = layer(vUv, aspect, 12.0, 3.0, 41.7, 0.07, 0.022, 0.30);
+  float aG = layer(vUv, aspect, 7.0, 2.2, 0.0, 0.22, 0.05, 0.20, 1.6);
+  float aP = layer(vUv, aspect, 9.0, 2.6, 17.3, 0.14, 0.035, 0.24, 1.6);
+  float aB = layer(vUv, aspect, 15.0, 3.4, 41.7, 0.06, 0.03, 0.42, 3.0);
 
   // Premultiplied "over" accumulation.
   vec4 acc = vec4(uGreen * aG, aG);
