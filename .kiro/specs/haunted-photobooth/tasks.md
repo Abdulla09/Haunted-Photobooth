@@ -7,7 +7,7 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
 ## Tasks
 
 - [ ] 1. Phase 1: Project setup and pure foundations
-  - [ ] 1.1 Set up dependencies, scripts, and stage layout
+  - [x] 1.1 Set up dependencies, scripts, and stage layout
     - Add `@mediapipe/tasks-vision`, `vitest`, `fast-check` as exact-version dependencies; add `"test": "vitest --run"`
     - Add `scripts/copy-mediapipe.mjs` (copies WASM to `public/mediapipe/wasm/`) and run it as `predev` and `prebuild`
     - Place `hand_landmarker.task` and `selfie_segmenter.tflite` under `public/models/`

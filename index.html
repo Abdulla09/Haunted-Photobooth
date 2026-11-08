@@ -4,10 +4,16 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>haunted-photobooth</title>
+    <title>Haunted Photobooth</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="stage">
+      <canvas id="canvas"></canvas>
+      <div id="overlays"></div>
+    </div>
+    <div id="hint" role="status" aria-live="polite"></div>
+    <div id="screens"></div>
+    <div id="record"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
