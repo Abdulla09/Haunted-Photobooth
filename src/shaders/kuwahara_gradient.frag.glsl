@@ -49,7 +49,15 @@ void main() {
 
   // Gradient map strictly after Kuwahara: 4 quantized bands.
   float l = dot(best.rgb, vec3(0.299, 0.587, 0.114));
-  float band = floor(clamp(l, 0.0, 0.999) * 4.0) / 3.0;
-  vec3 g = mix(PURPLE, GREEN, vUv.y); // green at top, purple at bottom
-  outColor = vec4(g * mix(0.45, 1.0, band), 1.0);
+  // Stretch contrast so typical skin/room tones spread across all 4 bands.
+  float ls = clamp((l - 0.12) / 0.7, 0.0, 0.999);
+  float bandIdx = floor(ls * 4.0);
+  float band = bandIdx / 3.0;
+  // Keep Kuwahara luminance detail inside each band so features stay readable.
+  float detail = (ls * 4.0 - bandIdx - 0.5) * 0.22;
+  // Gradient: lifted violet at the bottom, vivid toxic green by the top.
+  float t = smoothstep(0.1, 0.85, vUv.y);
+  vec3 g = mix(PURPLE * 2.4, GREEN, t);
+  float bright = mix(0.55, 1.0, band) + detail;
+  outColor = vec4(clamp(g * bright, 0.0, 1.0), 1.0);
 }

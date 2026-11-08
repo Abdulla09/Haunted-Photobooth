@@ -67,7 +67,8 @@ export class BackgroundPass implements RenderPass {
     this.rays.setFloat('uResolution', res);
     this.rays.setFloat('uPersonCenter', [this.center.x, this.center.y]);
     this.rays.setFloat('uStepTime', frame.stepTimeSec);
-    this.rays.setFloat('uBone', PALETTE_VEC3.bone);
+    this.rays.setFloat('uGreen', PALETTE_VEC3.toxicGreen);
+    this.rays.setFloat('uOrange', PALETTE_VEC3.pumpkinOrange);
     this.quad.draw();
 
     gl.disable(gl.BLEND);

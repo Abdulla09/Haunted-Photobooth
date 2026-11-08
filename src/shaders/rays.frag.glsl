@@ -4,11 +4,12 @@ precision highp float;
 uniform vec2 uResolution;
 uniform vec2 uPersonCenter; // normalized, top-left origin, already mirrored
 uniform float uStepTime;
-uniform vec3 uBone;
+uniform vec3 uGreen;
+uniform vec3 uOrange;
 in vec2 vUv;
 out vec4 outColor;
 
-const float RAYS = 24.0;
+const float RAYS = 16.0;
 const float TAU = 6.28318530718;
 
 void main() {
@@ -16,9 +17,12 @@ void main() {
   vec2 d = (vUv - c) * vec2(uResolution.x / uResolution.y, 1.0);
   float a = atan(d.y, d.x);
   float rayId = a * RAYS / TAU + uStepTime * 0.4;
-  float ray = step(0.5, fract(rayId));
-  float fade = 1.0 - smoothstep(0.0, 1.2, length(d));
-  float alpha = ray * fade * 0.22;
-  // Additive blend (ONE, ONE): output bone scaled by alpha.
-  outColor = vec4(uBone * alpha, 0.0);
+  float ray = step(0.45, fract(rayId));
+  // Alternate toxic green / pumpkin orange wedges.
+  float odd = mod(floor(rayId), 2.0);
+  vec3 col = mix(uGreen, uOrange, odd);
+  float fade = 1.0 - smoothstep(0.1, 1.5, length(d));
+  float alpha = ray * mix(0.35, 0.8, fade);
+  // Additive blend (ONE, ONE): color scaled by alpha.
+  outColor = vec4(col * alpha, 0.0);
 }

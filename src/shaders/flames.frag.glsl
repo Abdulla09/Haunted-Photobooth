@@ -32,24 +32,44 @@ float maskAt(vec2 uv) {
   return texture(uMaskBlur, vec2(1.0 - uv.x, 1.0 - uv.y)).r;
 }
 
-// One flame layer: returns hard-edged coverage (0 or 1).
-float layer(vec2 uv, float aspect, float scale, float speed, float phase,
-            float rise, float wobble, float threshold) {
-  vec2 np = uv * scale * vec2(aspect, 1.0) * vec2(1.0, 0.6)
-          + vec2(0.0, -uStepTime * speed) + phase;
-  float n = valueNoise(np);
-  // Sample the mask below the pixel so flames lick upward from the silhouette.
-  vec2 s = uv + vec2((n - 0.5) * wobble, -rise * (0.5 + n));
+float fbm(vec2 p) {
+  float v = 0.0;
+  float a = 0.5;
+  for (int i = 0; i < 4; i++) {
+    v += a * valueNoise(p);
+    p = p * 2.03 + vec2(5.2, 1.7);
+    a *= 0.5;
+  }
+  return v; // ~0..0.94
+}
+
+// One flame layer: hard-edged coverage (0 or 1) with jagged upward tongues.
+float layer(vec2 uv, float aspect, float freq, float speed, float phase,
+            float rise, float sway, float threshold) {
+  float t = uStepTime;
+  vec2 p = vec2(uv.x * aspect * freq, uv.y * freq * 0.5);
+  // Domain warp: rising, flickering offsets (stepped via uStepTime only).
+  vec2 w = vec2(fbm(p + vec2(phase, -t * speed * 0.6)),
+                fbm(p + vec2(phase + 7.7, -t * speed * 0.9)));
+  vec2 q = p + (w - 0.47) * 2.6 + vec2(0.0, -t * speed);
+  float n = fbm(q);
+  // Ridged noise gives pointed peaks; sharpen so tongues are spiky.
+  float tip = 1.0 - abs(2.0 * n - 1.0);
+  tip = pow(clamp(tip, 0.0, 1.0), 1.6);
+  // Fast per-step flicker on tongue height.
+  float flick = 0.75 + 0.25 * hash(vec2(floor(uv.x * aspect * freq), t * 3.0 + phase));
+  float h = tip * flick;
+  vec2 s = uv + vec2((w.x - 0.47) * sway, -rise * h);
   return step(threshold, maskAt(s));
 }
 
 void main() {
   float aspect = uResolution.x / uResolution.y;
 
-  // Back to front: outer green (largest), middle purple, inner bone (smallest).
-  float aG = layer(vUv, aspect, 6.0, 1.6, 0.0, 0.16, 0.06, 0.12);
-  float aP = layer(vUv, aspect, 9.0, 2.0, 17.3, 0.11, 0.045, 0.18);
-  float aB = layer(vUv, aspect, 13.0, 2.4, 41.7, 0.06, 0.03, 0.26);
+  // Back to front: outer green (tallest), middle purple, inner bone (shortest).
+  float aG = layer(vUv, aspect, 7.0, 2.2, 0.0, 0.22, 0.05, 0.20);
+  float aP = layer(vUv, aspect, 9.0, 2.6, 17.3, 0.14, 0.035, 0.24);
+  float aB = layer(vUv, aspect, 12.0, 3.0, 41.7, 0.07, 0.022, 0.30);
 
   // Premultiplied "over" accumulation.
   vec4 acc = vec4(uGreen * aG, aG);
