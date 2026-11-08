@@ -9,6 +9,8 @@ import { MaskBlurPass } from './MaskBlurPass.ts';
 import { ParticleCompositePass } from './ParticleCompositePass.ts';
 import { ParticlePass } from './ParticlePass.ts';
 import { TitleCardPass } from './TitleCardPass.ts';
+import { ShatterPass } from './ShatterPass.ts';
+import { generateWedges } from '../shatter/wedges.ts';
 
 /**
  * Holds three fixed ordered pass lists. Passes in the Monster list that
@@ -21,6 +23,12 @@ export class Pipeline {
   private readonly all: RenderPass[];
   private readonly background: BackgroundPass;
   private readonly particles: ParticlePass;
+  private readonly shatter: ShatterPass;
+
+  /** Generates a fresh wedge layout for a new transition. */
+  beginShatter(seed: number): void {
+    this.shatter.setWedges(generateWedges(seed));
+  }
 
   /** Sets the smoothed Person_Center used by the background light rays. */
   setBackgroundCenter(x: number, y: number): void {
@@ -49,8 +57,11 @@ export class Pipeline {
     this.particles = particles;
     // Title card draws over the monster target only while a burst is active.
     const titleCard = new TitleCardPass();
-    // Transitioning (Phase 1 placeholder): same as Monster without present.
-    const transFeed = new FeedPass((f) => f.targets.monster);
+    // Transitioning: Monster passes (no present) render into targets.monster,
+    // the feed renders into targets.normal, and the shatter pass composites both.
+    const transFeed = new FeedPass((f) => f.targets.normal);
+    const shatter = new ShatterPass();
+    this.shatter = shatter;
 
     this.normal = [normalFeed];
     this.monster = [
@@ -63,8 +74,19 @@ export class Pipeline {
       titleCard,
       present,
     ];
-    this.transitioning = [transFeed];
+    this.transitioning = [
+      particles,
+      maskBlur,
+      background,
+      flames,
+      monsterPerson,
+      particleComposite,
+      titleCard,
+      transFeed,
+      shatter,
+    ];
     this.all = [
+      shatter,
       normalFeed,
       particles,
       maskBlur,

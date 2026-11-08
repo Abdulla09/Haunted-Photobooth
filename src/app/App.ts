@@ -9,9 +9,10 @@ import type { HandResult } from '../inference/HandTracker'
 import { InferenceScheduler } from '../inference/InferenceScheduler'
 import type { MaskResult } from '../inference/Segmenter'
 import { ModeController } from '../mode/ModeController'
-import { ImmediateDriver } from '../mode/TransitionDriver'
 import type { FrameState } from '../passes/Pass'
 import { Pipeline } from '../passes/Pipeline'
+import { ShatterDriver } from '../shatter/ShatterDriver'
+import { timeline } from '../shatter/timeline'
 import { DebugOverlay } from '../ui/DebugOverlay'
 import { Hints } from '../ui/Hints'
 import { PermissionScreen } from '../ui/PermissionScreen'
@@ -39,7 +40,8 @@ export class App {
   private readonly overlays = byId('overlays')
   private readonly screens = byId('screens')
 
-  private readonly mode = new ModeController(new ImmediateDriver())
+  private readonly driver = new ShatterDriver()
+  private readonly mode = new ModeController(this.driver)
   private readonly hints = new Hints(byId('hint'), this.mode)
   private readonly gestures = new GestureDetector()
   private readonly clock = new SteppedClock()
@@ -95,6 +97,10 @@ export class App {
     this.mode.onBurst((burstStartMs) => {
       if (burstStartMs !== null) this.pipeline.startParticles(this.center)
       else this.pipeline.stopParticles()
+    })
+    this.mode.onChange((next) => {
+      // Fresh wedge layout for every transition.
+      if (next === 'transitioning') this.pipeline.beginShatter((Math.random() * 0x7fffffff) | 0)
     })
     this.debug = new DebugOverlay(this.overlays, this.canvas)
 
@@ -221,6 +227,13 @@ export class App {
     }
     uploadVideoFrame(gl, this.videoTex, video)
 
+    // Advance the shatter on the stepped clock; may flip the mode to Monster.
+    this.driver.update((tick.step * 1000) / CONFIG.STEP_RATE, nowMs)
+    const transition =
+      this.mode.state === 'transitioning'
+        ? { progress: timeline(this.driver.elapsedMs), origin: this.driver.origin }
+        : null
+
     const state: FrameState = {
       gl,
       nowMs,
@@ -233,7 +246,7 @@ export class App {
       maskVersion: mask.version,
       personCenter: this.center,
       hasSegmenter: (this.inference?.hasSegmenter ?? false) && this.hasMask,
-      transition: null,
+      transition,
       targets,
     }
     this.pipeline.render(state)

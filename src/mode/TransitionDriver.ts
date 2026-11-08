@@ -5,7 +5,7 @@ export interface Point {
 
 export interface DriverCallbacks {
   /** Called when the particle burst / title slam should begin. */
-  onBurstStart(): void;
+  onBurstStart(nowMs?: number): void;
   /** Called when the transition has finished. */
   onComplete(): void;
 }

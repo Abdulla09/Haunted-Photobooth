@@ -57,7 +57,7 @@ export class ModeController {
       this.setState('transitioning');
       const origin = event.fistPosition ?? { x: 0.5, y: 0.5 };
       this.driver.start(origin, {
-        onBurstStart: () => this.handleBurstStart(),
+        onBurstStart: (burstNowMs?: number) => this.handleBurstStart(burstNowMs),
         onComplete: () => this.handleComplete(),
       });
       return true;
@@ -74,9 +74,9 @@ export class ModeController {
     return false;
   }
 
-  private handleBurstStart(): void {
+  private handleBurstStart(nowMs?: number): void {
     if (this._state !== 'transitioning') return;
-    this._burstStartMs = this.lastNowMs;
+    this._burstStartMs = nowMs ?? this.lastNowMs;
     this.notifyBurst(this._burstStartMs);
   }
 
