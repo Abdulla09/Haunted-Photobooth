@@ -8,6 +8,7 @@ import { FlamesPass } from './FlamesPass.ts';
 import { MaskBlurPass } from './MaskBlurPass.ts';
 import { ParticleCompositePass } from './ParticleCompositePass.ts';
 import { ParticlePass } from './ParticlePass.ts';
+import { TitleCardPass } from './TitleCardPass.ts';
 
 /**
  * Holds three fixed ordered pass lists. Passes in the Monster list that
@@ -46,6 +47,8 @@ export class Pipeline {
     const particles = new ParticlePass();
     const particleComposite = new ParticleCompositePass(particles);
     this.particles = particles;
+    // Title card draws over the monster target only while a burst is active.
+    const titleCard = new TitleCardPass();
     // Transitioning (Phase 1 placeholder): same as Monster without present.
     const transFeed = new FeedPass((f) => f.targets.monster);
 
@@ -57,6 +60,7 @@ export class Pipeline {
       flames,
       monsterPerson,
       particleComposite,
+      titleCard,
       present,
     ];
     this.transitioning = [transFeed];
@@ -68,6 +72,7 @@ export class Pipeline {
       flames,
       monsterPerson,
       particleComposite,
+      titleCard,
       present,
       transFeed,
     ];
