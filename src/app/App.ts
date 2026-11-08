@@ -91,6 +91,11 @@ export class App {
     this.videoTex = createVideoTexture(gl)
     this.maskTex = createMaskTexture(gl)
     this.pipeline.init(ctx)
+    GlState.applyBaseline(gl)
+    this.mode.onBurst((burstStartMs) => {
+      if (burstStartMs !== null) this.pipeline.startParticles(this.center)
+      else this.pipeline.stopParticles()
+    })
     this.debug = new DebugOverlay(this.overlays, this.canvas)
 
     this.permission = new PermissionScreen(

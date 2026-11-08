@@ -6,6 +6,8 @@ import { PresentPass } from './PresentPass.ts';
 import { BackgroundPass } from './BackgroundPass.ts';
 import { FlamesPass } from './FlamesPass.ts';
 import { MaskBlurPass } from './MaskBlurPass.ts';
+import { ParticleCompositePass } from './ParticleCompositePass.ts';
+import { ParticlePass } from './ParticlePass.ts';
 
 /**
  * Holds three fixed ordered pass lists. Passes in the Monster list that
@@ -17,6 +19,7 @@ export class Pipeline {
   readonly transitioning: RenderPass[];
   private readonly all: RenderPass[];
   private readonly background: BackgroundPass;
+  private readonly particles: ParticlePass;
 
   /** Sets the smoothed Person_Center used by the background light rays. */
   setBackgroundCenter(x: number, y: number): void {
@@ -38,13 +41,48 @@ export class Pipeline {
     this.background = background;
     const monsterPerson = new PersonPass((f) => f.targets.monster);
     const present = new PresentPass();
+    // Particles render into their own Three target, so they run first; the
+    // composite blends them over the monster target right after Person.
+    const particles = new ParticlePass();
+    const particleComposite = new ParticleCompositePass(particles);
+    this.particles = particles;
     // Transitioning (Phase 1 placeholder): same as Monster without present.
     const transFeed = new FeedPass((f) => f.targets.monster);
 
     this.normal = [normalFeed];
-    this.monster = [maskBlur, background, flames, monsterPerson, present];
+    this.monster = [
+      particles,
+      maskBlur,
+      background,
+      flames,
+      monsterPerson,
+      particleComposite,
+      present,
+    ];
     this.transitioning = [transFeed];
-    this.all = [normalFeed, maskBlur, background, flames, monsterPerson, present, transFeed];
+    this.all = [
+      normalFeed,
+      particles,
+      maskBlur,
+      background,
+      flames,
+      monsterPerson,
+      particleComposite,
+      present,
+      transFeed,
+    ];
+  }
+
+  /** Burst_Start: respawn particles at the normalized Person_Center and show them. */
+  startParticles(center: { x: number; y: number }): void {
+    this.particles.reset(center);
+    this.particles.show();
+  }
+
+  /** Return to Normal: hide and reset while keeping GPU resources. */
+  stopParticles(): void {
+    this.particles.hide();
+    this.particles.reset({ x: 0.5, y: 0.5 });
   }
 
   init(ctx: GlContext): void {
