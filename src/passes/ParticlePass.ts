@@ -4,14 +4,14 @@ import { mulberry32 } from '../app/rng.ts';
 import type { GlContext } from '../gl/GlContext.ts';
 import { GlState } from '../gl/GlState.ts';
 import { createParticleMeshes, type ParticleMeshSet } from './particles/toon.ts';
-import { PARTICLE_KINDS } from './particles/kinds.ts';
+import { KIND_CAPACITY } from './particles/kinds.ts';
 import { ParticleSim, type Bounds, type Point } from './particles/simulation.ts';
 import type { FrameState, RenderPass } from './Pass.ts';
 
 const CAMERA_FOV = 40;
 const CAMERA_Z = 6;
 /** Uniform instance scale (geometries are about one unit wide). */
-const INSTANCE_SCALE = 0.2;
+const INSTANCE_SCALE = 0.34;
 /** Clear radius around the Person_Center as a fraction of viewport world height. */
 const CLEAR_RADIUS_FRAC = 0.28;
 const MIN_NEAR_SCALE = 0.05;
@@ -39,7 +39,6 @@ export class ParticlePass implements RenderPass {
   private scene: THREE.Scene | null = null;
   private camera: THREE.PerspectiveCamera | null = null;
   private meshes: ParticleMeshSet | null = null;
-  private lights: THREE.Light[] = [];
   private sim: ParticleSim | null = null;
   private failed = false;
   private failureReason: string | null = null;
@@ -52,7 +51,7 @@ export class ParticlePass implements RenderPass {
   private matricesDirty = true;
   private readonly tmpMatrix = new THREE.Matrix4();
   private readonly tmpQuat = new THREE.Quaternion();
-  private readonly tmpAxis = new THREE.Vector3();
+  private readonly tmpAxis = new THREE.Vector3(0, 0, 1);
   private readonly tmpPos = new THREE.Vector3();
   private readonly tmpScale = new THREE.Vector3(INSTANCE_SCALE, INSTANCE_SCALE, INSTANCE_SCALE);
 
@@ -183,8 +182,6 @@ export class ParticlePass implements RenderPass {
   dispose(): void {
     this.meshes?.dispose();
     this.meshes = null;
-    for (const l of this.lights) l.dispose?.();
-    this.lights = [];
     this.scene?.clear();
     this.scene = null;
     this.camera = null;
@@ -201,11 +198,6 @@ export class ParticlePass implements RenderPass {
     camera.position.set(0, 0, CAMERA_Z);
     camera.lookAt(0, 0, 0);
     camera.updateMatrixWorld();
-    const dir = new THREE.DirectionalLight(0xffffff, 2.2);
-    dir.position.set(1.5, 2, 3);
-    const ambient = new THREE.AmbientLight(0xffffff, 0.9);
-    scene.add(dir, ambient);
-    this.lights = [dir, ambient];
     const meshes = createParticleMeshes();
     meshes.addTo(scene);
     this.scene = scene;
@@ -222,30 +214,24 @@ export class ParticlePass implements RenderPass {
     const sim = this.sim;
     const meshes = this.meshes;
     if (!sim || !meshes) return;
-    const counts = new Array<number>(PARTICLE_KINDS.length).fill(0);
     const vb = this.viewportWorldBounds();
     const clearR = (vb.maxY - vb.minY) * CLEAR_RADIUS_FRAC;
     const cwx = this.worldCenter.x;
     const cwy = this.worldCenter.y;
-    for (let i = 0; i < sim.count; i++) {
-      const ki = sim.kind[i];
-      const slot = counts[ki]++;
-      const km = meshes.kinds[ki];
-      this.tmpAxis.set(sim.ax[i], sim.ay[i], sim.az[i]);
-      this.tmpQuat.setFromAxisAngle(this.tmpAxis, sim.angle[i]);
-      this.tmpPos.set(sim.px[i], sim.py[i], sim.pz[i]);
+    const n = Math.min(sim.count, KIND_CAPACITY);
+    for (let i = 0; i < n; i++) {
+      this.tmpQuat.setFromAxisAngle(this.tmpAxis, sim.tilt[i]);
+      this.tmpPos.set(sim.px[i], sim.py[i] + sim.bob[i], 0);
       const dist = Math.hypot(sim.px[i] - cwx, sim.py[i] - cwy);
       const t = Math.min(1, Math.max(0, dist / clearR));
       const grow = MIN_NEAR_SCALE + (1 - MIN_NEAR_SCALE) * (t * t * (3 - 2 * t));
-      this.tmpScale.setScalar(INSTANCE_SCALE * grow);
+      this.tmpScale.setScalar(INSTANCE_SCALE * sim.size[i] * grow);
       this.tmpMatrix.compose(this.tmpPos, this.tmpQuat, this.tmpScale);
-      km.mesh.setMatrixAt(slot, this.tmpMatrix);
+      meshes.mesh.setMatrixAt(i, this.tmpMatrix);
     }
-    meshes.kinds.forEach((km, ki) => {
-      km.mesh.count = counts[ki];
-      km.outline.count = counts[ki];
-      km.mesh.instanceMatrix.needsUpdate = true;
-    });
+    meshes.mesh.count = n;
+    meshes.outline.count = n;
+    meshes.mesh.instanceMatrix.needsUpdate = true;
   }
 
   private createTarget(w: number, h: number): THREE.WebGLRenderTarget {

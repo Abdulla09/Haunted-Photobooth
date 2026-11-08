@@ -9,7 +9,12 @@ export const CONFIG = {
   /** Stepped animation rate */
   STEP_RATE: 18,
   /** Particles */
-  PARTICLE_COUNT: 150,
+  PARTICLE_COUNT: 20,
+  /** Face clear zone (ellipse), as fractions of viewport world height. */
+  GHOST_CLEAR_RX_FRAC: 0.22,
+  GHOST_CLEAR_RY_FRAC: 0.3,
+  /** Clear zone center is shifted up (toward the head) by this fraction of viewport height. */
+  GHOST_CLEAR_UP_FRAC: 0.05,
   /** Recording */
   RECORD_DURATION_MS: 5000,
   /** Shatter transition (ms) */
