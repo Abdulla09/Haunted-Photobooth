@@ -3,12 +3,12 @@ precision highp float;
 
 uniform sampler2D uVideo;
 uniform vec2 uTexel;   // 1 / (half-resolution target size)
-uniform int uRadius;   // 3
+uniform int uRadius;   // 2
+uniform vec3 uMidnight;
+uniform vec3 uViolet;
+uniform vec3 uLavender;
 in vec2 vUv;
 out vec4 outColor;
-
-const vec3 PURPLE = vec3(0.16470588, 0.03137255, 0.27058824); // #2A0845
-const vec3 GREEN = vec3(0.22352941, 1.0, 0.07843137);         // #39FF14
 
 // Video is uploaded top-row-first; mirror X and flip Y to GL orientation.
 vec3 fetchVideo(vec2 uv) {
@@ -47,15 +47,18 @@ void main() {
   if (q2.w < best.w) best = q2;
   if (q3.w < best.w) best = q3;
 
-  // Gradient map strictly after Kuwahara: 4 quantized bands.
+  // Gradient map strictly after Kuwahara: 4 hard posterized luminance bands.
   float l = dot(best.rgb, vec3(0.299, 0.587, 0.114));
   // Stretch contrast so typical skin/room tones spread across all 4 bands.
   float ls = clamp((l - 0.12) / 0.7, 0.0, 0.999);
   float bandIdx = floor(ls * 4.0);
-  float band = bandIdx / 3.0;
-  // Luminance is posterized (hard bands); the vertical gradient stays smooth.
-  float t = smoothstep(0.1, 0.85, vUv.y);
-  vec3 g = mix(PURPLE * 2.4, GREEN, t);
-  float bright = mix(0.55, 1.0, band);
-  outColor = vec4(clamp(g * bright, 0.0, 1.0), 1.0);
+
+  // Flat bands: midnight -> violet -> (violet/lavender) -> lavender.
+  vec3 c = uMidnight;
+  if (bandIdx > 0.5) c = uViolet;
+  if (bandIdx > 1.5) c = mix(uViolet, uLavender, 0.5);
+  if (bandIdx > 2.5) c = uLavender;
+
+  // Alpha carries the band index (0..1) for the ink edge detector.
+  outColor = vec4(c, bandIdx / 3.0);
 }

@@ -7,14 +7,16 @@ import type { Target } from '../gl/Targets.ts';
 import vert from '../shaders/fullscreen.vert.glsl?raw';
 import kuwaharaFrag from '../shaders/kuwahara_gradient.frag.glsl?raw';
 import personFrag from '../shaders/person.frag.glsl?raw';
+import { PALETTE_VEC3 } from '../app/palette.ts';
 import type { FrameState, RenderPass } from './Pass.ts';
 
-const KUWAHARA_RADIUS = 3;
+const KUWAHARA_RADIUS = 2;
 
 /**
- * Cel-shaded person: Kuwahara + gradient map at half resolution, then masked
- * with a hard orange rim light, premultiplied over the target.
- * Without a segmenter it draws the full stylized frame with no rim.
+ * Anime cel person: Kuwahara + purple duotone band map at half resolution,
+ * then masked with ink outlines and a mint glow outline, premultiplied over
+ * the target. Without a segmenter it draws the full stylized frame with ink
+ * lines and no glow.
  */
 export class PersonPass implements RenderPass {
   readonly name = 'person';
@@ -60,6 +62,9 @@ export class PersonPass implements RenderPass {
     this.kuwahara.setInt('uVideo', 0);
     this.kuwahara.setFloat('uTexel', [1 / half.w, 1 / half.h]);
     this.kuwahara.setInt('uRadius', KUWAHARA_RADIUS);
+    this.kuwahara.setFloat('uMidnight', PALETTE_VEC3.midnight);
+    this.kuwahara.setFloat('uViolet', PALETTE_VEC3.violet);
+    this.kuwahara.setFloat('uLavender', PALETTE_VEC3.lavender);
     this.quad.draw();
 
     // Stage 2: mask, rim light, premultiplied output.
@@ -73,6 +78,8 @@ export class PersonPass implements RenderPass {
     this.person.setInt('uMask', 1);
     this.person.setFloat('uTexel', [1 / frame.size.w, 1 / frame.size.h]);
     this.person.setInt('uHasSegmenter', frame.hasSegmenter ? 1 : 0);
+    this.person.setFloat('uInk', PALETTE_VEC3.midnight);
+    this.person.setFloat('uMint', PALETTE_VEC3.ghostMint);
     this.quad.draw();
     gl.activeTexture(gl.TEXTURE0);
   }
