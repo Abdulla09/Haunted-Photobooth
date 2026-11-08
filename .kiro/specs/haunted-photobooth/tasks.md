@@ -174,17 +174,17 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
 - [x] 12. Checkpoint - Phase 3 complete
   - Run `npm run test` and `npm run build`; ensure all tests pass, ask the user if questions arise.
 
-- [ ] 13. Phase 4: Particle layer
-  - [ ] 13.1 Add Three.js and the shared-context handoff
+- [x] 13. Phase 4: Particle layer
+  - [x] 13.1 Add Three.js and the shared-context handoff
     - Add `three` and `@types/three` with exact versions; `THREE.ColorManagement.enabled = false`; `WebGLRenderer({ canvas, context })` with `autoClear = false`, linear output, no tone mapping, no `setSize`
     - `ParticlePass` skeleton: 4x MSAA `RGBA8` render target, texture handle self-test (`renderer.properties.get(...).__webglTexture`, `gl.isTexture`) that disables the pass on failure; `resetState()` at Boundary 1 and `GlState.applyBaseline` at Boundary 2
     - _Requirements: 12.11, 17.3_
 
-  - [ ] 13.2 Implement particle geometry, kinds, and toon material
+  - [x] 13.2 Implement particle geometry, kinds, and toon material
     - `kinds.ts`, `geometry.ts` (eight procedural low-poly kinds under ~120 triangles with palette vertex colors), `toon.ts` (4-texel `DataTexture` gradient map with `NearestFilter`, `MeshToonMaterial`, inverted-hull outline), one `InstancedMesh` per kind (capacity 19)
     - _Requirements: 12.2, 12.4, 12.5_
 
-  - [ ] 13.3 Implement `simulation.ts` and `distributeKinds`
+  - [x] 13.3 Implement `simulation.ts` and `distributeKinds`
     - Pure, Three-free: struct-of-arrays state, `spawn`, `step(dt, bounds, center)` outward motion, out-of-bounds respawn at center, idempotent `reset(center)` without reallocation; `distributeKinds(150, rng)` gives 18 or 19 per kind
     - _Requirements: 12.1, 12.2, 12.3, 12.6, 12.7, 12.8_
 
@@ -208,19 +208,19 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
     - **Property 14: Reset is history-independent and idempotent**
     - **Validates: Requirements 12.8**
 
-  - [ ] 13.9 Complete `ParticlePass` and add `ParticleCompositePass`
+  - [x] 13.9 Complete `ParticlePass` and add `ParticleCompositePass`
     - Scene with camera (fov 40), directional + ambient light, `viewportWorldBounds()`, matrices rewritten only on step change
     - `composite.frag.glsl` and `ParticleCompositePass` blending the particle texture with `(ONE, ONE_MINUS_SRC_ALPHA)`
     - `dispose()` releases geometries, materials, gradient texture, render target, and renderer
     - _Requirements: 12.4, 12.6, 12.9, 12.10, 12.11_
 
-  - [ ] 13.10 Wire particles to Burst_Start
+  - [x] 13.10 Wire particles to Burst_Start
     - Add `ParticlePass` (first, before raw passes) and `ParticleCompositePass` (after Person) to the pipeline; both enabled when `burstStartMs !== null`
     - On burst start: `reset(personCenter)` and show; on return to Normal: hide and reset while retaining GPU resources; dispose on `pagehide`
     - _Requirements: 12.1, 12.8, 12.9, 12.10_
 
-- [ ] 14. Phase 4: Title card
-  - [ ] 14.1 Implement `titleCard/layout.ts`
+- [x] 14. Phase 4: Title card
+  - [x] 14.1 Implement `titleCard/layout.ts`
     - `layoutRows(w, h)` returns three rows with distinct tilts (-8°, +5°, -3°) inside the canvas; `slamProgress(sinceBurstStartMs)` is 300 ms, stepped at 1/18 s, with 80 ms row stagger
     - _Requirements: 13.1, 13.2_
 
@@ -232,12 +232,12 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
     - **Property 16: Slam-in is monotonic, bounded, and stepped**
     - **Validates: Requirements 13.2**
 
-  - [ ] 14.4 Implement `atlas.ts`, `TitleCardPass`, and title card shaders
+  - [x] 14.4 Implement `atlas.ts`, `TitleCardPass`, and title card shaders
     - Bake "HAUNTED / PHOTO / BOOTH" once into a 2048x768 2D canvas atlas with system font stack, thick round-joined black outline, palette fills, hard purple shadow; upload with premultiply only during upload
     - `titlecard.vert.glsl` / `titlecard.frag.glsl`: three tilted quads, scale 2.5 → 1.0 with overshoot, alpha ramp, 2-step shake
     - _Requirements: 13.1, 13.2, 13.3, 13.4, 13.6_
 
-  - [ ] 14.5 Wire the title card to Burst_Start
+  - [x] 14.5 Wire the title card to Burst_Start
     - `TitleCardPass` placed after `ParticleCompositePass` and before `PresentPass`, enabled only while `burstStartMs !== null`; slam clock starts at Burst_Start; removed on return to Normal_Mode
     - _Requirements: 13.1, 13.5, 13.6_
 
@@ -246,7 +246,7 @@ Implementation language: TypeScript (Vite, vanilla), with GLSL in `src/shaders/*
     - Automated grep test: `three` is imported only in `src/passes/ParticlePass.ts` and `src/passes/particles/*`
     - _Requirements: 12.9, 12.10, 13.3, 13.6, 17.3_
 
-- [ ] 15. Checkpoint - Phase 4 complete
+- [x] 15. Checkpoint - Phase 4 complete
   - Run `npm run test` and `npm run build`; confirm the dev-mode `GlState.assertBaseline` guard reports no warnings across the Three boundary. Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 16. Phase 5: Shatter transition and return

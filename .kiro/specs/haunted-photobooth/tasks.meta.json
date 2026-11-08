@@ -393,6 +393,138 @@
         "executionId": "a582e28b-f620-47d5-b066-a8ee5f6a528a",
         "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
         "timestamp": 1794129264232
+      },
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794131587638
+      },
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794131649905
+      }
+    ],
+    "13.1 Add Three.js and the shared-context handoff": [
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794131658769
+      },
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794131878738
+      }
+    ],
+    "13.2 Implement particle geometry, kinds, and toon material": [
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794131882296
+      },
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794131972392
+      }
+    ],
+    "13.3 Implement `simulation.ts` and `distributeKinds`": [
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794131972832
+      },
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794132047013
+      }
+    ],
+    "13.9 Complete `ParticlePass` and add `ParticleCompositePass`": [
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794132047511
+      },
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794132274724
+      }
+    ],
+    "13.10 Wire particles to Burst_Start": [
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794132275470
+      },
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794132343038
+      }
+    ],
+    "14.1 Implement `titleCard/layout.ts`": [
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794132343226
+      },
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794132407022
+      }
+    ],
+    "13. Phase 4: Particle layer": [
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794132343562
+      }
+    ],
+    "14.4 Implement `atlas.ts`, `TitleCardPass`, and title card shaders": [
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794132407711
+      },
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794132510120
+      }
+    ],
+    "14.5 Wire the title card to Burst_Start": [
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794132510925
+      },
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794132795872
+      }
+    ],
+    "14. Phase 4: Title card": [
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794132796091
+      }
+    ],
+    "15. Checkpoint - Phase 4 complete": [
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794132796749
+      },
+      {
+        "executionId": "d7b21b94-d141-41c8-8852-9239fea74552",
+        "chatSessionId": "sess_ed34b80b-5d52-4fbe-9c6d-af76547f4bf1",
+        "timestamp": 1794132843849
       }
     ]
   }
