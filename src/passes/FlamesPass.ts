@@ -22,11 +22,11 @@ export class FlamesPass implements RenderPass {
 
   /**
    * @param pickTarget target to draw into (null = default framebuffer)
-   * @param maskBlurTexture blurred mask source; defaults to `frame.textures.maskBlur`
+   * @param maskBlurTexture blurred mask source (typically `MaskBlurPass.outputTexture`)
    */
   constructor(
-    pickTarget: (frame: FrameState) => Target | null = () => null,
-    maskBlurTexture: (frame: FrameState) => WebGLTexture | null = (f) => f.textures.maskBlur,
+    pickTarget: (frame: FrameState) => Target | null,
+    maskBlurTexture: (frame: FrameState) => WebGLTexture | null,
   ) {
     this.pickTarget = pickTarget;
     this.maskBlurTexture = maskBlurTexture;

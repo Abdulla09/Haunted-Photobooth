@@ -14,7 +14,7 @@ export interface FrameState {
   mode: Mode;
   burstStartMs: number | null;
   size: { w: number; h: number };
-  textures: { video: WebGLTexture; mask: WebGLTexture; maskBlur: WebGLTexture };
+  textures: { video: WebGLTexture; mask: WebGLTexture };
   maskVersion: number;
   personCenter: { x: number; y: number };
   hasSegmenter: boolean;

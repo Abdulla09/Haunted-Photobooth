@@ -24,6 +24,9 @@ import { SteppedClock } from './SteppedClock'
 /** A hand sample older than this is treated as "no hand". */
 const HAND_STALE_MS = 500
 
+/** Per-step smoothing factor for Person_Center. */
+const CENTER_LERP = 0.25
+
 function byId(id: string): HTMLElement {
   const el = document.getElementById(id)
   if (!el) throw new Error(`Missing #${id} in index.html`)
@@ -52,7 +55,6 @@ export class App {
 
   private videoTex: WebGLTexture | null = null
   private maskTex: WebGLTexture | null = null
-  private maskBlurTex: WebGLTexture | null = null
   private targets: { monster: Target; normal: Target } | null = null
 
   private rafId = 0
@@ -63,6 +65,7 @@ export class App {
   private lastMaskVersion = 0
   private hasMask = false
   private center = { x: 0.5, y: 0.5 }
+  private readonly smoothCenter = { x: 0.5, y: 0.5 }
   private gestureClass: GestureClass = 'other'
 
   private readonly onResize = (): void => this.layoutCss()
@@ -87,7 +90,6 @@ export class App {
     GlState.applyBaseline(gl)
     this.videoTex = createVideoTexture(gl)
     this.maskTex = createMaskTexture(gl)
-    this.maskBlurTex = createMaskTexture(gl)
     this.pipeline.init(ctx)
     this.debug = new DebugOverlay(this.overlays, this.canvas)
 
@@ -180,7 +182,7 @@ export class App {
     if (video.videoWidth <= 0 || video.readyState < 2) return
     this.ensureCanvasSize(video.videoWidth, video.videoHeight)
     const targets = this.targets
-    if (!targets || !this.videoTex || !this.maskTex || !this.maskBlurTex) return
+    if (!targets || !this.videoTex || !this.maskTex) return
 
     const gl = this.ctx.gl
 
@@ -206,6 +208,12 @@ export class App {
     }
 
     const tick = this.clock.update(nowMs)
+    if (tick.changed) {
+      // Per-step lerp so the light rays glide toward the person.
+      this.smoothCenter.x += (this.center.x - this.smoothCenter.x) * CENTER_LERP
+      this.smoothCenter.y += (this.center.y - this.smoothCenter.y) * CENTER_LERP
+      this.pipeline.setBackgroundCenter(this.smoothCenter.x, this.smoothCenter.y)
+    }
     uploadVideoFrame(gl, this.videoTex, video)
 
     const state: FrameState = {
@@ -216,7 +224,7 @@ export class App {
       mode: this.mode.state,
       burstStartMs: this.mode.burstStartMs,
       size: { w: this.canvasW, h: this.canvasH },
-      textures: { video: this.videoTex, mask: this.maskTex, maskBlur: this.maskBlurTex },
+      textures: { video: this.videoTex, mask: this.maskTex },
       maskVersion: mask.version,
       personCenter: this.center,
       hasSegmenter: (this.inference?.hasSegmenter ?? false) && this.hasMask,
@@ -276,7 +284,6 @@ export class App {
       }
       if (this.videoTex) gl.deleteTexture(this.videoTex)
       if (this.maskTex) gl.deleteTexture(this.maskTex)
-      if (this.maskBlurTex) gl.deleteTexture(this.maskBlurTex)
     }
   }
 }
