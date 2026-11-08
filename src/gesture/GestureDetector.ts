@@ -54,6 +54,11 @@ export class GestureDetector {
     return null;
   }
 
+  /** Un-latches the current hold (keeps its start time) so the event can fire on the next update. */
+  rearm(): void {
+    this.latched = false;
+  }
+
   private reset(cls: GestureClass | null, nowMs: number): void {
     this.current = cls;
     this.holdStart = nowMs;

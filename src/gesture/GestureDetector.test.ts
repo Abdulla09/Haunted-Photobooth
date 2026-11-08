@@ -93,3 +93,15 @@ describe('GestureDetector', () => {
     );
   });
 });
+
+describe('GestureDetector.rearm', () => {
+  it('lets a continuing hold fire again on the next update', () => {
+    const d = new GestureDetector();
+    const fist = hand('fist');
+    d.update(fist, 0, 'normal');
+    expect(d.update(fist, CONFIG.FIST_HOLD_MS, 'normal')?.type).toBe('trigger');
+    expect(d.update(fist, CONFIG.FIST_HOLD_MS + 10, 'normal')).toBeNull();
+    d.rearm();
+    expect(d.update(fist, CONFIG.FIST_HOLD_MS + 20, 'normal')?.type).toBe('trigger');
+  });
+});

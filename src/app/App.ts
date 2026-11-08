@@ -194,7 +194,7 @@ export class App {
         : null
     this.gestureClass = lm ? classify(lm) : 'other'
     const event = this.gestures.update(lm, nowMs, this.mode.state)
-    if (event) this.mode.dispatch(event, nowMs)
+    if (event && !this.mode.dispatch(event, nowMs)) this.gestures.rearm()
 
     if (mask.value && mask.version !== this.lastMaskVersion) {
       this.lastMaskVersion = mask.version
