@@ -19,6 +19,7 @@ export class GestureDetector {
   private current: GestureClass | null = null;
   private holdStart = 0;
   private latched = false;
+  private palmInMonster = false;
 
   /** Returns zero or one event for this sample. `null` means no hand. */
   update(
@@ -31,7 +32,13 @@ export class GestureDetector {
       return null;
     }
     const cls = classify(landmarks);
-    if (cls !== this.current) this.reset(cls, nowMs);
+    // The Open_Palm hold only counts while in Monster_Mode, so entering or
+    // leaving Monster_Mode mid-palm restarts the timer.
+    const palmInMonster = cls === 'open_palm' && mode === 'monster';
+    if (cls !== this.current || palmInMonster !== this.palmInMonster) {
+      this.reset(cls, nowMs);
+      this.palmInMonster = palmInMonster;
+    }
     if (this.latched) return null;
 
     const held = nowMs - this.holdStart;
@@ -51,5 +58,6 @@ export class GestureDetector {
     this.current = cls;
     this.holdStart = nowMs;
     this.latched = false;
+    this.palmInMonster = false;
   }
 }
